@@ -1,0 +1,351 @@
+************************** Round 1 *******************************
+Initial switchscore building: Statuses (0)
+Initial switchscore building: Stat Stages (0)
+Initial switchscore building: Healing (0)
+Initial switchscore building: fsteak (0)
+Initial switchscore building: Typing (0)
+Initial switchscore building: Specific Switches (0)
+Cinccino: initial switchscore: 0
+Initial noswitchscore building: Stat Stages (0)
+Initial noswitchscore building: Entry Hazards (0)
+Initial noswitchscore building: Alternate Switching Options (100)
+Initial noswitchscore building: Second Wind Situations (50)
+Cinccino: initial noswitchscore: 150
+ShouldSwitchScore: -150 
+
+[The foe's Cinccino: Bullet Seed=[11, -1, -1, -1], Rock Blast=[44, -1, -1, -1], Tail Slap=[32, -1, -1, -1], Wake-Up Slap=[16, -1, -1, -1]]
+[Prefer Rock Blast]
+
+ ______________________________________________________________________________ 
+Scoring for battler: Cinccino , HP percentage: 100.0 %
+Held Item: King's Rock , Ability: Cute Charm , Field: no field
+                                                            |AI Scores
+Expected Damage taken from Ninetales                        |98.3 % 
+
+Scoring for Switching to other mon                          |-150 
+ 
+Bullet Seed - 0 vs Ninetales, Init scoring move:            |9 
+Bullet Seed - 0 vs Ninetales, Final scoring move:           |11 
+
+Rock Blast - 0 vs Ninetales, Init scoring move:             |36 
+Rock Blast - 0 vs Ninetales, Final scoring move:            |44 
+
+Tail Slap - 0 vs Ninetales, Init scoring move:              |27 
+Tail Slap - 0 vs Ninetales, Final scoring move:             |32 
+
+Wake-Up Slap - 0 vs Ninetales, Init scoring move:           |16 
+Wake-Up Slap - 0 vs Ninetales, Final scoring move:          |16 
+
+Final action chosen:                                        |[Prefer Rock Blast]
+ ______________________________________________________________________________ 
+
+Cinccino used Rock Blast
+[Ninetales lost 38 HP, now has 249 HP]
+[Ninetales lost 36 HP, now has 213 HP]
+Ninetales used Safeguard
+************************** Round 2 *******************************
+************************** Round 1 *******************************
+Priority Check Begin
+Player Pokemon is faster.
+pre-check: 10
+Expected damage taken: 446
+post-check: 40
+Priority Check End
+Beginning AI Item use check.
+
+This is a HP-healing item.
+Score for Super Potion: -100
+Highest item score: -100
+Initial switchscore building: Statuses (0)
+Initial switchscore building: Stat Stages (0)
+Initial switchscore building: Healing (0)
+Initial switchscore building: fsteak (0)
+Initial switchscore building: Typing (-20)
+Initial switchscore building: Specific Switches (100)
+Combusken: initial switchscore: 80
+Initial noswitchscore building: Stat Stages (0)
+Initial noswitchscore building: Entry Hazards (0)
+Initial noswitchscore building: Alternate Switching Options (100)
+Initial noswitchscore building: Second Wind Situations (50)
+Combusken: initial noswitchscore: 150
+ShouldSwitchScore: -70 
+
+[The foe's Combusken: Double Kick=[1, -1, -1, -1], Flame Charge=[1, -1, -1, -1], Cut=[0, -1, -1, -1], Protect=[24, -1, -1, -1]]
+[Prefer Protect]
+
+ ______________________________________________________________________________ 
+Scoring for battler: Combusken , HP percentage: 100.0 %
+Held Item:  , Ability: Blaze , Field: no field
+                                                            |AI Scores
+Expected Damage taken from Ninetales                        |782.5 % 
+
+Scoring for Switching to other mon                          |-70 
+ 
+Scoring for items                                           |                    | 
+Super Potion                                                |-100.0              
+Cut - 0 vs Ninetales, Init scoring move:                    |1 
+Cut - 0 vs Ninetales, Final scoring move:                   |0 
+
+Double Kick - 0 vs Ninetales, Init scoring move:            |1 
+Double Kick - 0 vs Ninetales, Final scoring move:           |1 
+
+Flame Charge - 0 vs Ninetales, Init scoring move:           |1 
+Flame Charge - 0 vs Ninetales, Final scoring move:          |1 
+
+Protect - 0 vs Ninetales, Init scoring move:                |10 
+Protect - 0 vs Ninetales, Final scoring move:               |24 
+
+Final action chosen:                                        |[Prefer Protect]   
+ ______________________________________________________________________________ 
+
+Combusken used Protect
+Ninetales used Safeguard
+************************** Round 2 *******************************
+Priority Check Begin
+Player Pokemon is faster.
+pre-check: 10
+Expected damage taken: 446
+post-check: 40
+Priority Check End
+Beginning AI Item use check.
+
+This is a HP-healing item.
+Score for Super Potion: -100
+Highest item score: -100
+Initial switchscore building: Statuses (0)
+Initial switchscore building: Stat Stages (0)
+Initial switchscore building: Healing (0)
+Initial switchscore building: fsteak (0)
+Initial switchscore building: Typing (-20)
+Initial switchscore building: Specific Switches (0)
+Combusken: initial switchscore: -20
+Initial noswitchscore building: Stat Stages (0)
+Initial noswitchscore building: Entry Hazards (0)
+Initial noswitchscore building: Alternate Switching Options (0)
+Initial noswitchscore building: Second Wind Situations (25)
+Combusken: initial noswitchscore: 25
+ShouldSwitchScore: -45 
+
+[The foe's Combusken: Double Kick=[1, -1, -1, -1], Flame Charge=[1, -1, -1, -1], Cut=[0, -1, -1, -1], Protect=[12, -1, -1, -1]]
+[Prefer Protect]
+
+ ______________________________________________________________________________ 
+Scoring for battler: Combusken , HP percentage: 100.0 %
+Held Item:  , Ability: Blaze , Field: no field
+                                                            |AI Scores
+Expected Damage taken from Ninetales                        |782.5 % 
+
+Scoring for Switching to other mon                          |-45 
+ 
+Scoring for items                                           |                    | 
+Super Potion                                                |-100.0              
+Cut - 0 vs Ninetales, Init scoring move:                    |1 
+Cut - 0 vs Ninetales, Final scoring move:                   |0 
+
+Double Kick - 0 vs Ninetales, Init scoring move:            |1 
+Double Kick - 0 vs Ninetales, Final scoring move:           |1 
+
+Flame Charge - 0 vs Ninetales, Init scoring move:           |1 
+Flame Charge - 0 vs Ninetales, Final scoring move:          |1 
+
+Protect - 0 vs Ninetales, Init scoring move:                |10 
+Protect - 0 vs Ninetales, Final scoring move:               |12 
+
+Final action chosen:                                        |[Prefer Protect]   
+ ______________________________________________________________________________ 
+
+Combusken used Protect
+Ninetales used Safeguard
+************************** Round 3 *******************************
+************************** Round 1 *******************************
+ShouldSwitchScore: -1000 
+
+[The wild Abomasnow: Razor Leaf=[105, -1, -1, -1], Icy Wind=[100, -1, -1, -1], Leer=[100, -1, -1, -1], Leafage=[100, -1, -1, -1]]
+[Prefer Icy Wind]
+
+ ______________________________________________________________________________ 
+Scoring for battler: Abomasnow , HP percentage: 100.0 %
+Held Item:  , Ability: Snow Warning , Field: no field
+                                                            |AI Scores
+
+Scoring for Switching to other mon                          |-1000 
+ 
+Final action chosen:                                        |[Prefer Icy Wind]  
+ ______________________________________________________________________________ 
+
+Ninetales used Safeguard
+Abomasnow used Icy Wind
+[Ninetales lost 1 HP, now has 286 HP]
+[Ninetales lost 17 HP, now has 269 HP]
+************************** Round 2 *******************************
+ShouldSwitchScore: -1000 
+
+[The wild Abomasnow: Razor Leaf=[105, -1, -1, -1], Icy Wind=[100, -1, -1, -1], Leer=[100, -1, -1, -1], Leafage=[100, -1, -1, -1]]
+[Prefer Leer]
+
+ ______________________________________________________________________________ 
+Scoring for battler: Abomasnow , HP percentage: 100.0 %
+Held Item:  , Ability: Snow Warning , Field: no field
+                                                            |AI Scores
+
+Scoring for Switching to other mon                          |-1000 
+ 
+Final action chosen:                                        |[Prefer Leer]      
+ ______________________________________________________________________________ 
+
+Ninetales used Safeguard
+Abomasnow used Leer
+************************** Round 1 *******************************
+ShouldSwitchScore: -1000 
+
+[The wild Abomasnow: Razor Leaf=[100, -1, -1, -1], Icy Wind=[105, -1, -1, -1], Leer=[100, -1, -1, -1], Leafage=[100, -1, -1, -1]]
+[Prefer Razor Leaf]
+
+ ______________________________________________________________________________ 
+Scoring for battler: Abomasnow , HP percentage: 100.0 %
+Held Item:  , Ability: Soundproof , Field: no field
+                                                            |AI Scores
+
+Scoring for Switching to other mon                          |-1000 
+ 
+Final action chosen:                                        |[Prefer Razor Leaf]
+ ______________________________________________________________________________ 
+
+Ninetales used Safeguard
+Abomasnow used Razor Leaf
+[Ninetales lost 1 HP, now has 286 HP]
+************************** Round 2 *******************************
+************************** Round 1 *******************************
+ShouldSwitchScore: -1000 
+
+[The wild Abra: Teleport=[100, -1, -1, -1]]
+[Prefer Teleport]
+
+ ______________________________________________________________________________ 
+Scoring for battler: Abra , HP percentage: 100.0 %
+Held Item:  , Ability: Inner Focus , Field: no field
+                                                            |AI Scores
+
+Scoring for Switching to other mon                          |-1000 
+ 
+Final action chosen:                                        |[Prefer Teleport]  
+ ______________________________________________________________________________ 
+
+Ninetales used Safeguard
+Abra used Teleport
+************************** Round 1 *******************************
+ShouldSwitchScore: -1000 
+
+[The wild Abomasnow: Razor Leaf=[100, -1, -1, -1], Icy Wind=[105, -1, -1, -1], Leer=[100, -1, -1, -1], Leafage=[100, -1, -1, -1]]
+[Prefer Icy Wind]
+
+ ______________________________________________________________________________ 
+Scoring for battler: Abomasnow , HP percentage: 100.0 %
+Held Item:  , Ability: Soundproof , Field: no field
+                                                            |AI Scores
+
+Scoring for Switching to other mon                          |-1000 
+ 
+Final action chosen:                                        |[Prefer Icy Wind]  
+ ______________________________________________________________________________ 
+
+Ninetales used Safeguard
+Abomasnow used Icy Wind
+[Ninetales lost 1 HP, now has 286 HP]
+************************** Round 2 *******************************
+************************** Round 1 *******************************
+ShouldSwitchScore: -1000 
+
+[The wild Abomasnow: Razor Leaf=[105, -1, -1, -1], Icy Wind=[100, -1, -1, -1], Leer=[100, -1, -1, -1], Leafage=[100, -1, -1, -1]]
+[Prefer Leer]
+
+ ______________________________________________________________________________ 
+Scoring for battler: Abomasnow , HP percentage: 100.0 %
+Held Item:  , Ability: Snow Warning , Field: no field
+                                                            |AI Scores
+
+Scoring for Switching to other mon                          |-1000 
+ 
+Final action chosen:                                        |[Prefer Leer]      
+ ______________________________________________________________________________ 
+
+Ninetales used Safeguard
+Abomasnow used Leer
+[Ninetales lost 17 HP, now has 270 HP]
+************************** Round 2 *******************************
+************************** Round 1 *******************************
+ShouldSwitchScore: -1000 
+
+[The wild Abra: Teleport=[100, -1, -1, -1]]
+[Prefer Teleport]
+
+ ______________________________________________________________________________ 
+Scoring for battler: Abra , HP percentage: 100.0 %
+Held Item:  , Ability: Inner Focus , Field: no field
+                                                            |AI Scores
+
+Scoring for Switching to other mon                          |-1000 
+ 
+Final action chosen:                                        |[Prefer Teleport]  
+ ______________________________________________________________________________ 
+
+Ninetales used Safeguard
+Abra used Teleport
+************************** Round 1 *******************************
+ShouldSwitchScore: -1000 
+
+[The wild Abomasnow: Razor Leaf=[100, -1, -1, -1], Icy Wind=[100, -1, -1, -1], Leer=[105, -1, -1, -1], Leafage=[100, -1, -1, -1]]
+[Prefer Leafage]
+
+ ______________________________________________________________________________ 
+Scoring for battler: Abomasnow , HP percentage: 100.0 %
+Held Item:  , Ability: Snow Warning , Field: no field
+                                                            |AI Scores
+
+Scoring for Switching to other mon                          |-1000 
+ 
+Final action chosen:                                        |[Prefer Leafage]   
+ ______________________________________________________________________________ 
+
+Ninetales used Safeguard
+Abomasnow used Leafage
+[Ninetales lost 1 HP, now has 286 HP]
+[Ninetales lost 17 HP, now has 269 HP]
+************************** Round 2 *******************************
+************************** Round 1 *******************************
+ShouldSwitchScore: -1000 
+
+[The wild Abomasnow: Razor Leaf=[100, -1, -1, -1], Icy Wind=[105, -1, -1, -1], Leer=[100, -1, -1, -1], Leafage=[100, -1, -1, -1]]
+[Prefer Razor Leaf]
+
+ ______________________________________________________________________________ 
+Scoring for battler: Abomasnow , HP percentage: 100.0 %
+Held Item:  , Ability: Soundproof , Field: no field
+                                                            |AI Scores
+
+Scoring for Switching to other mon                          |-1000 
+ 
+Final action chosen:                                        |[Prefer Razor Leaf]
+ ______________________________________________________________________________ 
+
+Ninetales used Safeguard
+Abomasnow used Razor Leaf
+************************** Round 2 *******************************
+************************** Round 1 *******************************
+ShouldSwitchScore: -1000 
+
+[The wild Abomasnow: Razor Leaf=[100, -1, -1, -1], Icy Wind=[100, -1, -1, -1], Leer=[100, -1, -1, -1], Leafage=[105, -1, -1, -1]]
+[Prefer Leafage]
+
+ ______________________________________________________________________________ 
+Scoring for battler: Abomasnow , HP percentage: 100.0 %
+Held Item:  , Ability: Soundproof , Field: no field
+                                                            |AI Scores
+
+Scoring for Switching to other mon                          |-1000 
+ 
+Final action chosen:                                        |[Prefer Leafage]   
+ ______________________________________________________________________________ 
+
+Ninetales used Safeguard
+Abomasnow used Leafage
