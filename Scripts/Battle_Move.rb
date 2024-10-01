@@ -47,7 +47,7 @@ class PokeBattle_Move
       @effect     = @data.checkFlag?(:effect,0)
       @moreeffect = @data.checkFlag?(:moreeffect,0)
       @zmove      = @data.checkFlag?(:zmove,false)
-    end 
+    end
     if !zbase.nil?
       @zmove      = true
       if PBStuff::TYPETOZCRYSTAL[zbase.type] == user.item
@@ -126,7 +126,7 @@ class PokeBattle_Move
   def PokeBattle_Move.pbFromPBMove(battle,move,user,zbase=nil)
     className=nil if !move
     className=sprintf("PokeBattle_Move_%03X",$cache.moves[move.move].function) if move
-    if !className.nil? 
+    if !className.nil?
       if Object.const_defined?(className)
         return Kernel.const_get(className).new(battle,move,user,zbase)
       else
@@ -157,7 +157,7 @@ class PokeBattle_Move
       when :DEEPEARTH         then type=:GROUND     if @move == :TOPSYTURVY
     end
     if !@zmove
-      case attacker.ability 
+      case attacker.ability
         when :NORMALIZE   then type=:NORMAL
         when :PIXILATE    then type=:FAIRY    if type==:NORMAL && @battle.FE != :GLITCH
         when :AERILATE    then type=:FLYING   if type==:NORMAL
@@ -166,6 +166,13 @@ class PokeBattle_Move
         when :DUSKILATE   then type=:DARK     if type==:NORMAL && @battle.FE != :GLITCH
         when :LIQUIDVOICE then type= @battle.FE==:ICY ? :ICE : :WATER if isSoundBased?
       end
+      #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Kantoan Arcanine)
+      if attacker.crested == :ARCANINE and attacker.form == 0
+        if type == :NORMAL
+          type = :FIRE
+        end
+      end
+      #MODDED - CRESTS AND AEVIAN FORMS MOD - END
     end
     case attacker.crested
         when :SIMISEAR  then type=:WATER  if type==:NORMAL
@@ -177,7 +184,7 @@ class PokeBattle_Move
             when 0  then type=:WATER  if type==:NORMAL
             when 1  then type=:FIRE   if type==:NORMAL
             when 2  then type=:GROUND if type==:NORMAL
-            when 3  then type=:ICE    if type==:NORMAL 
+            when 3  then type=:ICE    if type==:NORMAL
           end
     end
     if (attacker.effects[:Electrify] || type == :NORMAL && @battle.state.effects[:IonDeluge]) && !@zmove
@@ -219,7 +226,7 @@ class PokeBattle_Move
   end
 
   def pbTargetsAll?(attacker)
-    if @target==:AllOpposing 
+    if @target==:AllOpposing
       # TODO: should apply even if partner faints during an attack
       numtargets=0
       numtargets+=1 if !attacker.pbOpposing1.isFainted?
@@ -390,8 +397,8 @@ class PokeBattle_Move
     # Calculates how much Defense and SpDef opponent has
     calcdefensestage=opponent.stages[PBStats::DEFENSE]+6
     # aaaand Defense
-    calcdefmult = 1.0       
-    calcdefmult*=1.5 if @battle.FE == :SNOWYMOUNTAIN && opponent.hasType?(:ICE) && @battle.pbWeather == :HAIL        
+    calcdefmult = 1.0
+    calcdefmult*=1.5 if @battle.FE == :SNOWYMOUNTAIN && opponent.hasType?(:ICE) && @battle.pbWeather == :HAIL
     calcdefmult*=1.5 if @battle.FE == :ICY && opponent.hasType?(:ICE) && @battle.pbWeather == :HAIL
     calcdefmult*=1.5 if opponent.ability == :MARVELSCALE && (!opponent.status.nil? || ([:MISTY,:RAINBOW,:FAIRYTALE,:DRAGONSDEN,:STARLIGHT].include?(@battle.FE) || @battle.state.effects[:MISTY] > 0)) && !(opponent.moldbroken)
     calcdefmult*=1.5 if opponent.ability == :GRASSPELT && (@battle.FE == :GRASSY || @battle.FE == :FOREST || @battle.state.effects[:GRASSY] > 0) # Grassy Field
@@ -406,8 +413,8 @@ class PokeBattle_Move
     calcdefense=(opponent.defense*1.0*(stagemul[calcdefensestage]/stagediv[calcdefensestage])*calcdefmult).floor
     calcspdefstage=opponent.stages[PBStats::SPDEF]+6
     # don't forget spdef
-    calcspdefmult = 1.0       
-    calcspdefmult*=1.5 if @battle.FE == :DESERT && opponent.hasType?(:GROUND)       
+    calcspdefmult = 1.0
+    calcspdefmult*=1.5 if @battle.FE == :DESERT && opponent.hasType?(:GROUND)
     calcspdefmult*=1.5 if @battle.FE == :MISTY && opponent.hasType?(:FAIRY)
     if ((@battle.pbWeather== :SUNNYDAY && !opponent.hasWorkingItem(:UTILITYUMBRELLA)) || @battle.ProgressiveFieldCheck(PBFields::FLOWERGARDEN) || @battle.FE == :BEWITCHED) && !(opponent.moldbroken)
       calcspdefmult*=1.5 if opponent.ability == :FLOWERGIFT && opponent.species == :CHERRIM
@@ -418,12 +425,12 @@ class PokeBattle_Move
     calcspdefmult*=2.0 if opponent.hasWorkingItem(:DEEPSEASCALE) && (opponent.pokemon.species == :CLAMPERL)
     # end spdef boosts
     calcspdef=(opponent.spdef*1.0*(stagemul[calcspdefstage]/stagediv[calcspdefstage])*calcspdefmult).floor
-    
+
     # Compares difference between Atk/Def and SpAtk/SpDef to determine Physical or Special
     @category=(calcattack-calcdefense>calcspatk-calcspdef) ? :physical : :special
     return
   end
-  
+
   #These functions are intended to be subclassed
   def pbNumHits(attacker)
     return 1
@@ -474,7 +481,7 @@ class PokeBattle_Move
     end
     mod1=PBTypes.oneTypeEff(atype,otype1)
     mod2=((otype1==otype2)||otype2.nil?) ? 2 : PBTypes.oneTypeEff(atype,otype2)
-    
+
     if attacker.ability == :SCRAPPY || opponent.effects[:Foresight]
       mod1=2 if otype1 == :GHOST && (atype == :NORMAL || atype == :FIGHTING)
       mod2=2 if otype2 == :GHOST && (atype == :NORMAL || atype == :FIGHTING)
@@ -578,11 +585,11 @@ class PokeBattle_Move
       mod2=2 if mod2==0
     end
     if !opponent.moldbroken
-      if (atype == :FIRE && opponent.ability == :FLASHFIRE && @battle.FE != :FROZENDIMENSION) || 
+      if (atype == :FIRE && opponent.ability == :FLASHFIRE && @battle.FE != :FROZENDIMENSION) ||
         (atype == :GRASS && opponent.ability == :SAPSIPPER) ||
         (atype == :WATER && (opponent.ability == :WATERABSORB || opponent.ability == :STORMDRAIN || opponent.ability == :DRYSKIN)) ||
         (atype == :ELECTRIC && (opponent.ability == :VOLTABSORB || opponent.ability == :LIGHTNINGROD || opponent.ability == :MOTORDRIVE)) ||
-        (atype == :GROUND && opponent.ability == :LEVITATE && @battle.FE != :CAVE && @move != :THOUSANDARROWS && opponent.isAirborne?) 
+        (atype == :GROUND && opponent.ability == :LEVITATE && @battle.FE != :CAVE && @move != :THOUSANDARROWS && opponent.isAirborne?)
         mod1=0
       end
     end
@@ -744,7 +751,7 @@ class PokeBattle_Move
       end
       return 0
     end
-    if ((opponent.ability == :MOTORDRIVE && !(opponent.moldbroken)) || 
+    if ((opponent.ability == :MOTORDRIVE && !(opponent.moldbroken)) ||
       (Rejuv && @battle.FE == :GLITCH && opponent.species == :GENESECT && opponent.hasWorkingItem(:SHOCKDRIVE))) &&
       type == :ELECTRIC
       negator = getAbilityName(opponent.ability)
@@ -810,8 +817,8 @@ class PokeBattle_Move
         return 0
       end
     end
-    if ((opponent.ability == :FLASHFIRE && !opponent.moldbroken) || 
-      (Rejuv && @battle.FE == :GLITCH && opponent.species == :GENESECT && opponent.hasWorkingItem(:BURNDRIVE))) && 
+    if ((opponent.ability == :FLASHFIRE && !opponent.moldbroken) ||
+      (Rejuv && @battle.FE == :GLITCH && opponent.species == :GENESECT && opponent.hasWorkingItem(:BURNDRIVE))) &&
       type == :FIRE && @battle.FE != :FROZENDIMENSION
       negator = getAbilityName(opponent.ability)
       negator = getItemName(opponent.item) if (Rejuv && @battle.FE == :GLITCH && opponent.species == :GENESECT && opponent.hasWorkingItem(:BURNDRIVE))
@@ -874,7 +881,7 @@ class PokeBattle_Move
     end
     return 4
   end
-  
+
   def pbTypeModMessages(type,attacker,opponent)
     secondtype = getSecondaryType(attacker)
     if opponent.ability == :SAPSIPPER && !(opponent.moldbroken) && (type == :GRASS || (!secondtype.nil? && secondtype.include?(:GRASS)))
@@ -1048,8 +1055,8 @@ class PokeBattle_Move
         return 0
       end
     end
-    if ((opponent.ability == :FLASHFIRE && !opponent.moldbroken) || 
-      (Rejuv && @battle.FE == :GLITCH && opponent.species == :GENESECT && opponent.hasWorkingItem(:BURNDRIVE))) && 
+    if ((opponent.ability == :FLASHFIRE && !opponent.moldbroken) ||
+      (Rejuv && @battle.FE == :GLITCH && opponent.species == :GENESECT && opponent.hasWorkingItem(:BURNDRIVE))) &&
       (type == :FIRE || (!secondtype.nil? && secondtype.include?(:FIRE))) && @battle.FE != :FROZENDIMENSION
       negator = getAbilityName(opponent.ability)
       negator = getItemName(opponent.item) if (Rejuv && @battle.FE == :GLITCH && opponent.species == :GENESECT && opponent.hasWorkingItem(:BURNDRIVE))
@@ -1088,7 +1095,7 @@ class PokeBattle_Move
       case opponent.species
       when :LUXRAY
         typemod /= 2 if (type == :GHOST || type == :DARK)
-        typemod = 0 if type == :PSYCHIC 
+        typemod = 0 if type == :PSYCHIC
       when :SAMUROTT
         typemod /= 2 if (type == :BUG || type == :DARK || type == :ROCK)
       when :LEAFEON
@@ -1128,7 +1135,7 @@ class PokeBattle_Move
       end
     end
 
-    # Field Effect second type changes 
+    # Field Effect second type changes
     typemod=fieldTypeChange(attacker,opponent,typemod,false)
     typemod=overlayTypeChange(attacker,opponent,typemod,false)
 
@@ -1145,7 +1152,7 @@ class PokeBattle_Move
       ((PBTypes.oneTypeEff(type, :DRAGON) > 2) || (PBTypes.oneTypeEff(type, :DRAGON) < 2 && ($game_switches[:Inversemode] || (@battle.FE == :INVERSE))))
        typemod /= 2
     end
-    if @battle.ProgressiveFieldCheck(PBFields::FLOWERGARDEN,4,5) && opponent.hasType?(:GRASS) && 
+    if @battle.ProgressiveFieldCheck(PBFields::FLOWERGARDEN,4,5) && opponent.hasType?(:GRASS) &&
       ((PBTypes.oneTypeEff(type, :GRASS) > 2) || (PBTypes.oneTypeEff(type, :GRASS) < 2 && ($game_switches[:Inversemode] || (@battle.FE == :INVERSE))))
        typemod /= 2
     end
@@ -1169,7 +1176,7 @@ class PokeBattle_Move
   def fieldTypeChange(attacker,opponent,typemod,return_type=false)
     case @battle.FE
       when :RAINBOW # Rainbow Field
-        if (pbType(attacker) == :NORMAL) && pbIsSpecial?(pbType(attacker)) 
+        if (pbType(attacker) == :NORMAL) && pbIsSpecial?(pbType(attacker))
           moddedtype = @battle.getRandomType(:NORMAL)
         end
       when :CORROSIVEMIST # Corrosive Mist Field
@@ -1247,7 +1254,7 @@ class PokeBattle_Move
     secondtype = [secondtype[0],secondtype[1]] if secondtype.length>2
     return secondtype.empty? ? nil : secondtype
   end
-  
+
 ################################################################################
 # This move's accuracy check
 ################################################################################
@@ -1283,6 +1290,13 @@ class PokeBattle_Move
     if attacker.ability == :COMPOUNDEYES
       accuracy*=1.3
     end
+    #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Bibarel)
+    if attacker.crested == :BIBAREL
+      if attacker.ability == :COMPOUNDEYES
+        accuracy*=1.1
+      end
+    end
+    #MODDED - CRESTS AND AEVIAN FORMS MOD - End
     if attacker.hasWorkingItem(:MICLEBERRY)
       if (attacker.ability == :GLUTTONY && attacker.hp<=(attacker.totalhp/2.0).floor) ||
         attacker.hp<=(attacker.totalhp/4.0).floor
@@ -1313,7 +1327,7 @@ class PokeBattle_Move
     if attacker.ability == :LONGREACH && (@battle.FE == :ROCKY || (!Rejuv && @battle.FE == :FOREST)) # Rocky/ Forest Field
       accuracy*=0.9
     end
-    if (opponent.ability == :WONDERSKIN || (Rejuv && @battle.FE == :PSYTERRAIN && opponent.ability == :MAGICIAN)) && 
+    if (opponent.ability == :WONDERSKIN || (Rejuv && @battle.FE == :PSYTERRAIN && opponent.ability == :MAGICIAN)) &&
       @basedamage==0 && attacker.pbIsOpposing?(opponent.index) && !(opponent.moldbroken)
       if @battle.FE == :RAINBOW
         accuracy*=0
@@ -1354,7 +1368,7 @@ class PokeBattle_Move
     return 3 if (opponent.ability == :RATTLED || opponent.ability == :WIMPOUT) && @battle.FE == :COLOSSEUM
     return 3 if attacker.crested == :ARIADOS && (opponent.status == :POISON || opponent.stages[PBStats::SPEED] < 0) # ariados crest
     return 3 if (attacker.ability == :QUICKDRAW && attacker.effects[:QuickDrawSnipe])
-    c=0    
+    c=0
     c+=attacker.effects[:FocusEnergy]
     c+=1 if !@data.nil? && highCritRate?
     c+=1 if attacker.inHyperMode? && getMoveType(@move) == :SHADOW
@@ -1377,16 +1391,16 @@ class PokeBattle_Move
     c+=1 if attacker.speed > opponent.speed && @battle.FE == :GLITCH
     if Rejuv && @battle.FE == :CHESS
       c+=1 if (opponent.ability == :RECKLESS || opponent.ability == :GORILLATACTICS)
-      c+=1 if [:STOMPINGTANTRUM,:THRASH,:OUTRAGE].include?(opponent.lastMoveUsed) 
+      c+=1 if [:STOMPINGTANTRUM,:THRASH,:OUTRAGE].include?(opponent.lastMoveUsed)
       if attacker.ability == :MERCILESS
-        frac = (1.0*opponent.hp) / (1.0*opponent.totalhp)  
-        if frac < 0.8  
-          c+=1  
-        elsif frac < 0.6  
-          c+=2  
-        elsif frac < 0.4  
-          c+=3  
-        end  
+        frac = (1.0*opponent.hp) / (1.0*opponent.totalhp)
+        if frac < 0.8
+          c+=1
+        elsif frac < 0.6
+          c+=2
+        elsif frac < 0.4
+          c+=3
+        end
       end
     end
     c=3 if c>3
@@ -1404,7 +1418,7 @@ class PokeBattle_Move
   def pbModifyDamage(damagemult,attacker,opponent)
     return damagemult
   end
-  
+
   def pbCalcDamage(attacker,opponent,options=0, hitnum: 0)
     opponent.damagestate.critical=false
     opponent.damagestate.typemod=0
@@ -1424,7 +1438,7 @@ class PokeBattle_Move
     stagediv=[8,7,6,5,4,3,2,2,2,2,2,2,2]
     type=pbType(attacker)
     ##### Calcuate base power of move #####
-   
+
     basemult=1.0
     #classic prep stuff
     attitemworks = attacker.itemWorks?(true)
@@ -1448,7 +1462,7 @@ class PokeBattle_Move
         end
       when :RECKLESS      then basemult*=1.2 if [0xFA,0xFA,0xFA,0xFA,0xFA].include?(@function)
       when :FLAREBOOST    then basemult*=1.5 if (attacker.status== :BURN || @battle.FE == :BURNING || @battle.FE == :VOLCANIC || @battle.FE == :INFERNAL) && pbIsSpecial?(type) && @battle.FE != :FROZENDIMENSION
-      when :TOXICBOOST    
+      when :TOXICBOOST
         if (attacker.status== :POISON || @battle.FE == :CORROSIVE || @battle.FE == :CORROSIVEMIST || @battle.FE == :WASTELAND || @battle.FE == :MURKWATERSURFACE) && pbIsPhysical?(type)
           if @battle.FE == :CORRUPTED
             basemult*=2.0
@@ -1462,7 +1476,7 @@ class PokeBattle_Move
             when :BIGTOP then basemult*=1.5
             when :CAVE then basemult*=1.5
             else
-              basemult*=1.3 
+              basemult*=1.3
           end
         end
       when :RIVALRY       then basemult*= attacker.gender==opponent.gender ? 1.25 : 0.75 if attacker.gender!=2
@@ -1470,7 +1484,7 @@ class PokeBattle_Move
       when :SANDFORCE     then basemult*=1.3 if (@battle.pbWeather== :SANDSTORM || @battle.FE == :DESERT || @battle.FE == :ASHENBEACH) && (type == :ROCK || type == :GROUND || type == :STEEL)
       when :ANALYTIC      then basemult*=1.3 if (@battle.battlers.find_all {|battler| battler && battler.hp > 0 && !battler.hasMovedThisRound? }).length == 0
       when :SHEERFORCE    then basemult*=1.3 if effect > 0
-      when :AERILATE 
+      when :AERILATE
         if @type == :NORMAL && type == :FLYING
           case @battle.FE
             when :MOUNTAIN,:SNOWYMOUNTAIN,:SKY then basemult*=1.5
@@ -1486,12 +1500,12 @@ class PokeBattle_Move
             else
               if @battle.state.effects[:ELECTERRAIN] > 0
                 basemult*=1.5
-              else 
+              else
                 basemult*=1.2
               end
           end
         end
-      when :REFRIGERATE 
+      when :REFRIGERATE
         if @type == :NORMAL && type == :ICE
           case @battle.FE
             when :ICY,:SNOWYMOUNTAIN,:FROZENDIMENSION then basemult*=1.5
@@ -1499,14 +1513,14 @@ class PokeBattle_Move
               basemult*=1.2
           end
         end
-      when :PIXILATE 
+      when :PIXILATE
         if @type == :NORMAL && (type == :FAIRY || (type == :NORMAL && @battle.FE == :GLITCH))
           case @battle.FE
             when :MISTY then basemult*=1.5
             else
               if @battle.state.effects[:MISTY] > 0
                 basemult*=1.5
-              else 
+              else
                 basemult*=1.2
               end
           end
@@ -1545,7 +1559,7 @@ class PokeBattle_Move
     basemult=pbBaseDamageMultiplier(basemult,attacker,opponent)
     # standard crest damage multipliers
     case attacker.crested
-      when :FERALIGATR then basemult*=1.5 if (PBStuff::BITEMOVE).include?(@move) 
+      when :FERALIGATR then basemult*=1.5 if (PBStuff::BITEMOVE).include?(@move)
       when :CLAYDOL then basemult*=1.5 if isBeamMove?
       when :DRUDDIGON then basemult*=1.3 if (type == :DRAGON || type == :FIRE)
       when :BOLTUND then basemult*=1.5 if (PBStuff::BITEMOVE).include?(@move) && (!(opponent.hasMovedThisRound?) || @battle.switchedOut[opponent.index])
@@ -1554,7 +1568,7 @@ class PokeBattle_Move
       when :CRABOMINABLE then basemult*=1.5 if attacker.lastHPLost>0
       when :AMPHAROS then basemult*= attacker.hasType?(type) ? 1.2 : 1.5 if attacker.moves[0] == self
       when :LUXRAY then basemult *= 1.2 if @type == :NORMAL && type == :ELECTRIC
-      when :SAWSBUCK  
+      when :SAWSBUCK
         case attacker.form
         when 0 then basemult*=1.2 if @type == :NORMAL && type == :WATER
         when 1 then basemult*=1.2 if @type == :NORMAL && type == :FIRE
@@ -1565,15 +1579,15 @@ class PokeBattle_Move
     #type mods
     case type
       when :FIRE then basemult*=0.33 if @battle.state.effects[:WaterSport]>0
-      when :ELECTRIC 
+      when :ELECTRIC
         basemult*=0.33 if @battle.state.effects[:MudSport]>0
         basemult*=2.0 if attacker.effects[:Charge]>0
-      when :DARK 
+      when :DARK
         basemult*= (@battle.pbCheckGlobalAbility(:AURABREAK) ? 0.66 : 1.33) if @battle.pbCheckGlobalAbility(:DARKAURA)
         basemult*= (@battle.pbCheckGlobalAbility(:AURABREAK) ? 0.6 : 1.4) if @battle.pbCheckGlobalAbility(:DARKAURA) && @battle.FE==:DARKNESS1
         basemult*= (@battle.pbCheckGlobalAbility(:AURABREAK) ? 0.5 : 1.5) if @battle.pbCheckGlobalAbility(:DARKAURA) && @battle.FE==:DARKNESS2
         basemult*= (@battle.pbCheckGlobalAbility(:AURABREAK) ? 0.33 : 1.66) if @battle.pbCheckGlobalAbility(:DARKAURA) && @battle.FE==:DARKNESS3
-      when :FAIRY 
+      when :FAIRY
         basemult*= (@battle.pbCheckGlobalAbility(:AURABREAK) ? 0.66 : 1.33) if @battle.pbCheckGlobalAbility(:FAIRYAURA)
         basemult*= (@battle.pbCheckGlobalAbility(:AURABREAK) ? 0.7 : 1.30) if @battle.pbCheckGlobalAbility(:FAIRYAURA)&& @battle.FE==:DARKNESS1
         basemult*= (@battle.pbCheckGlobalAbility(:AURABREAK) ? 0.8 : 1.2) if @battle.pbCheckGlobalAbility(:FAIRYAURA)&& @battle.FE==:DARKNESS2
@@ -1799,7 +1813,7 @@ class PokeBattle_Move
       atkstage=6 if opponent.damagestate.critical && atkstage<6
       atk=(atk*1.0*stagemul[atkstage]/stagediv[atkstage]).floor
     end
-    if attacker.ability == :UNAWARE 
+    if attacker.ability == :UNAWARE
        atkstage=attacker.stages[PBStats::ATTACK]+6
        atk=(atk*1.0*stagemul[atkstage]/stagediv[atkstage]).floor
     end
@@ -1881,7 +1895,7 @@ class PokeBattle_Move
       atkmult*=1.5 if attacker.ability == :FLOWERGIFT || attacker.pbPartner.ability == :FLOWERGIFT
     end
     if (@battle.pbWeather== :SUNNYDAY) && pbIsPhysical?(type)
-      atkmult*=1.5 if attacker.ability == :SOLARIDOL 
+      atkmult*=1.5 if attacker.ability == :SOLARIDOL
     end
     if (@battle.pbWeather== :HAIL) && pbIsSpecial?(type)
       atkmult*=1.5 if attacker.ability == :LUNARIDOL
@@ -1922,7 +1936,7 @@ class PokeBattle_Move
       if @battle.FE == :WATERSURFACE
         atkmult*=1.5 if attacker.ability == :PROPELLERTAIL && @priority >= 1 && @basedamage > 0
       end
-      if @battle.FE == :UNDERWATER 
+      if @battle.FE == :UNDERWATER
         atkmult*=0.5 if (!Rejuv || !attacker.hasType?(:WATER)) && pbIsPhysical?(type) && type != :WATER && attacker.ability != :STEELWORKER && attacker.ability != :SWIFTSWIM
         atkmult*=1.5 if attacker.ability == :PROPELLERTAIL && @priority >= 1 && @basedamage > 0
       end
@@ -1931,11 +1945,11 @@ class PokeBattle_Move
         atkmult*=1.2 if attacker.ability == :ILLUSION && attacker.effects[:Illusion]!=nil
         if attacker.ability == :COMPETITIVE
           frac = (1.0*attacker.hp)/(1.0*attacker.totalhp)
-          multiplier = 1.0  
-          multiplier += ((1.0-frac)/0.8)  
-          if frac < 0.2  
-            multiplier = 2.0  
-          end  
+          multiplier = 1.0
+          multiplier += ((1.0-frac)/0.8)
+          if frac < 0.2
+            multiplier = 2.0
+          end
           atkmult=(atkmult*multiplier)
         end
       end
@@ -1952,7 +1966,7 @@ class PokeBattle_Move
     defense=opponent.defense
     defstage=opponent.stages[PBStats::DEFENSE]+6
     # TODO: Wonder Room should apply around here
-    
+
     applysandstorm=false
     if pbHitsSpecialStat?(type)
       defense=opponent.spdef
@@ -2000,16 +2014,16 @@ class PokeBattle_Move
       end
     end
     #Item defense boost
-    if opponent.hasWorkingItem(:EVIOLITE) && !(@battle.FE == :GLITCH && pbIsSpecial?(type)) 
+    if opponent.hasWorkingItem(:EVIOLITE) && !(@battle.FE == :GLITCH && pbIsSpecial?(type))
       evos=pbGetEvolvedFormData(opponent.pokemon.species,opponent.pokemon)
       if evos && evos.length>0
         defmult*=1.5
       end
     end
-    if opponent.item == :PIKANIUMZ && opponent.pokemon.species == :PIKACHU && !(@battle.FE == :GLITCH && pbIsSpecial?(type)) 
+    if opponent.item == :PIKANIUMZ && opponent.pokemon.species == :PIKACHU && !(@battle.FE == :GLITCH && pbIsSpecial?(type))
       defmult*=1.5
     end
-    if opponent.item == :LIGHTBALL && opponent.pokemon.species == :PIKACHU && !(@battle.FE == :GLITCH && pbIsSpecial?(type)) 
+    if opponent.item == :LIGHTBALL && opponent.pokemon.species == :PIKACHU && !(@battle.FE == :GLITCH && pbIsSpecial?(type))
       defmult*=1.5
     end
     if opponent.hasWorkingItem(:ASSAULTVEST) && pbIsSpecial?(type) && @battle.FE != :GLITCH
@@ -2063,7 +2077,7 @@ class PokeBattle_Move
     case @battle.FE
       when :MOUNTAIN,:SNOWYMOUNTAIN
         if type == :FLYING && !pbIsPhysical?(type) && @battle.pbWeather== :STRONGWINDS
-          provimult=1.5 
+          provimult=1.5
           provimult=1.25 if $game_variables[:DifficultyModes]==1
           provimult = ((provimult-1.0)*2.0)+1.0 if $game_switches[:FieldFrenzy]
           damage*=provimult
@@ -2098,7 +2112,7 @@ class PokeBattle_Move
       handled = change_conditions[fieldmove[:fieldchange]] ? eval(change_conditions[fieldmove[:fieldchange]]) : true
       #don't continue if conditions to change are not met or if a multistage field changes to a different stage of itself
       if handled  && !(@battle.ProgressiveFieldCheck("All") && (PBFields::CONCERT.include?(fieldmove[:fieldchange]) || PBFields::FLOWERGARDEN.include?(fieldmove[:fieldchange]) || PBFields::DARKNESS.include?(fieldmove[:fieldchange])))
-        provimult=1.3 
+        provimult=1.3
         provimult=1.15 if $game_variables[:DifficultyModes]==1
         provimult = ((provimult-1.0)*2.0)+1.0 if $game_switches[:FieldFrenzy]
         damage*=provimult
@@ -2109,7 +2123,7 @@ class PokeBattle_Move
         if (@move == :DISCHARGE) || (@move == :OVERDRIVE)
           @battle.setField(:SHORTCIRCUIT)
           @battle.pbDisplay(_INTL("The field shorted out!"))
-          provimult=1.3 
+          provimult=1.3
           provimult=1.15 if $game_variables[:DifficultyModes]==1
           provimult = ((provimult-1.0)*2.0)+1.0 if $game_switches[:FieldFrenzy]
           damage*=provimult
@@ -2118,7 +2132,7 @@ class PokeBattle_Move
         if (@move == :DISCHARGE) || (@move == :OVERDRIVE)
           @battle.setField(:FACTORY)
           @battle.pbDisplay(_INTL("SYSTEM ONLINE."))
-          provimult=1.3 
+          provimult=1.3
           provimult=1.15 if $game_variables[:DifficultyModes]==1
           provimult = ((provimult-1.0)*2.0)+1.0 if $game_switches[:FieldFrenzy]
           damage*=provimult
@@ -2140,7 +2154,7 @@ class PokeBattle_Move
       damage*=1.5
       damage*=1.5 if attacker.ability == :SNIPER
     end
-    # STAB-addition from Crests 
+    # STAB-addition from Crests
     typecrest = false
     case attacker.crested
       when :EMPOLEON then typecrest = true if type == :ICE
@@ -2272,7 +2286,7 @@ class PokeBattle_Move
       finalmult=(finalmult*multiplier)
     end
     if @zmove
-      if (opponent.pbOwnSide.effects[:MatBlock] || opponent.effects[:Protect] || 
+      if (opponent.pbOwnSide.effects[:MatBlock] || opponent.effects[:Protect] ||
         opponent.effects[:KingsShield] || opponent.effects[:Obstruct] ||
         opponent.effects[:SpikyShield] || opponent.effects[:BanefulBunker] ||
         opponent.pbOwnSide.effects[:WideGuard] && (@target == :AllOpposing || @target == :AllNonUsers))
@@ -2302,7 +2316,7 @@ class PokeBattle_Move
       damage=pbCalcDamage(attacker,opponent)
     end
     if opponent.effects[:Substitute]>0 && (!attacker || attacker.index!=opponent.index) &&
-     attacker.ability != :INFILTRATOR && !isSoundBased? && 
+     attacker.ability != :INFILTRATOR && !isSoundBased? &&
      @move!=:SPECTRALTHIEF &&  @move!=:HYPERSPACEHOLE &&  @move!=:HYPERSPACEFURY #spectral thief/ hyperspace hole/ hyperspace fury
       damage=opponent.effects[:Substitute] if damage>opponent.effects[:Substitute]
       opponent.effects[:Substitute]-=damage
@@ -2416,7 +2430,7 @@ class PokeBattle_Move
     elsif opponent.damagestate.rampcrestused
       @battle.pbDisplay(_INTL("{1} hung on using its Rampardos Crest!",opponent.pbThis))
       opponent.damagestate.rampcrestused=false
-    elsif opponent.damagestate.stalwart  
+    elsif opponent.damagestate.stalwart
       @battle.pbDisplay(_INTL("{1} hung on with Stalwart in the Colosseum!",opponent.pbThis))
       opponent.damagestate.stalwart=false
     end
@@ -2446,19 +2460,19 @@ class PokeBattle_Move
     return 0 if !opponent
 
     damage=pbCalcDamage(attacker,opponent,hitnum: hitnum)
-    
+
     damage *= 1.5 if attacker.effects[:MeFirst]
     damage /= 4 if hitnum == 1 && attacker.effects[:ParentalBond] && pbNumHits(attacker)==1
     damage *= 0.3 if hitnum == 1 && attacker.effects[:TyphBond] && pbNumHits(attacker)==1
-    if opponent.damagestate.typemod!=0 
-      pbShowAnimation(@move,attacker,opponent,hitnum,alltargets,showanimation) 
+    if opponent.damagestate.typemod!=0
+      pbShowAnimation(@move,attacker,opponent,hitnum,alltargets,showanimation)
       if self.function==0xC9 || self.function==0xCA || self.function==0xCB ||
-        self.function==0xCC || self.function==0xCD || self.function==0xCE #Sprites for two turn moves            
+        self.function==0xCC || self.function==0xCD || self.function==0xCE #Sprites for two turn moves
         @battle.scene.pbUnVanishSprite(attacker,false)
         if self.function==0xCE
           @battle.scene.pbUnVanishSprite(opponent,false)
         end
-      end       
+      end
     end
     damage=pbReduceHPDamage(damage,attacker,opponent)
     pbEffectMessages(attacker,opponent)
@@ -2468,7 +2482,7 @@ class PokeBattle_Move
 
   def priorityCheck(attacker)
     pri = self.priority
-    
+
     pri = 0 if @zmove && @basedamage > 0
     pri += 1 if @move == :GRASSYGLIDE && (@battle.FE == :GRASSY || @battle.state.effects[:GRASSY] > 0)
     pri += 1 if @move == :QUASH && @battle.FE == :DIMENSIONAL

@@ -1722,8 +1722,9 @@ class PokeBattle_Battler
         @battle.pbDisplay(_INTL("{1}'s Sand Stream whipped up a sandstorm!",pbThis))
       end
     end
-
-    if (ability == :DROUGHT) && onactive && @battle.weather!=:SUNNYDAY
+    #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Kantoan Arcanine)
+    if (ability == :DROUGHT) && onactive && @battle.weather!=:SUNNYDAY || (self.crested == :ARCANINE and self.form == 0)
+    #MODDED - CRESTS AND AEVIAN FORMS MOD - END
       if @battle.state.effects[:HeavyRain]
         @battle.pbDisplay(_INTL("There's no relief from this heavy rain!"))
       elsif @battle.state.effects[:HarshSunlight]
@@ -1748,7 +1749,13 @@ class PokeBattle_Battler
           @battle.FE == :DESERT || @battle.FE == :MOUNTAIN || @battle.FE == :SNOWYMOUNTAIN || @battle.FE == :SKY
         @battle.weatherduration=-1 if $game_switches[:Gen_5_Weather]==true
         @battle.pbCommonAnimation("Sunny",nil,nil)
-        @battle.pbDisplay(_INTL("{1}'s Drought intensified the sun's rays!",pbThis))
+        #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Kantoan Arcanine)
+        if self.crested == :ARCANINE and self.form == 0
+          @battle.pbDisplay(_INTL("{1}'s Crest intensified the sun's rays!",pbThis))
+        else
+          @battle.pbDisplay(_INTL("{1}'s Drought intensified the sun's rays!",pbThis))
+        end
+        #MODDED - CRESTS AND AEVIAN FORMS MOD - END
         if @battle.FE == :DARKCRYSTALCAVERN
           @battle.setField(:CRYSTALCAVERN,@battle.weatherduration)
           @battle.pbDisplay(_INTL("The sun lit up the crystal cavern!"))
@@ -1788,7 +1795,7 @@ class PokeBattle_Battler
         end
       end
     end
-    #MODDED - CRESTS AND AEVIAN FORMS MOD - START
+    #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Alolan Ninetales)
     if self.crested == :NINETALES and self.form == 1
       if self.pbOwnSide.effects[:AuroraVeil]>0 || ((@battle.weather!=:HAIL ||
         @battle.pbCheckGlobalAbility(:AIRLOCK) || @battle.pbCheckGlobalAbility(:CLOUDNINE)) &&
@@ -1796,7 +1803,7 @@ class PokeBattle_Battler
         @battle.pbDisplay(_INTL("{1}'s Crest failed to form an Aurora!"))
         return -1
       end
-      # TODO - Animation
+      @battle.pbAnimation(:AURORAVEIL, self, nil)
       self.pbOwnSide.effects[:AuroraVeil]=5
       self.pbOwnSide.effects[:AuroraVeil]=8 if self.hasWorkingItem(:LIGHTCLAY)
       self.pbOwnSide.effects[:AuroraVeil]=8 if @battle.FE == :MIRROR
@@ -1932,6 +1939,15 @@ class PokeBattle_Battler
     if Rejuv
       rejuvAbilities(onactive)
     end
+    #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Bibarel)
+    if self.crested == :BIBAREL and self.stages[PBStats::DEFENSE]<=0
+      if self.pbCanIncreaseStatStage?(PBStats::DEFENSE,true)
+        @battle.pbAnimation(:DEFENSECURL, self, nil)
+        ret=self.pbIncreaseStat(PBStats::DEFENSE,1,abilitymessage:false)
+        self.effects[:DefenseCurl]=true if ret
+      end
+    end
+    #MODDED - CRESTS AND AEVIAN FORMS MOD - END
     # Download
     if self.ability == :DOWNLOAD && onactive
       if (Rejuv && (@battle.FE == :SHORTCIRCUIT || @battle.FE == :GLITCH))
@@ -3243,6 +3259,33 @@ class PokeBattle_Battler
             target.pbIncreaseStatBasic(PBStats::DEFENSE,1)
             @battle.pbCommonAnimation("StatUp",target,nil)
             @battle.pbDisplay(_INTL("{1}'s {2} raised its Defense!", target.pbThis,getAbilityName(target.ability)))
+          end
+        end
+        if target.crested == :AVALUGG
+          if target.hp <= (0.84 * target.totalhp)
+            if target.pbCanIncreaseStatStage?(PBStats::SPDEF)
+              target.pbIncreaseStatBasic(PBStats::SPDEF,1)
+              @battle.pbCommonAnimation("StatUp",target,nil)
+              @battle.pbDisplay(_INTL("{1}'s {2} raised its Special Defense!", target.pbThis,getAbilityName(target.ability)))
+            end
+            if target.pbCanReduceStatStage?(PBStats::SPEED,false,true)
+              target.pbReduceStatBasic(PBStats::SPEED,1)
+              @battle.pbCommonAnimation("StatDown",target,nil)
+              @battle.pbDisplay(_INTL("{1}'s {2} lowered its Speed!", target.pbThis,getAbilityName(target.ability)))
+            end
+          else
+            if rand(2) == 1
+              if target.pbCanIncreaseStatStage?(PBStats::SPDEF)
+                target.pbIncreaseStatBasic(PBStats::SPDEF,1)
+                @battle.pbCommonAnimation("StatUp",target,nil)
+                @battle.pbDisplay(_INTL("{1}'s {2} raised its Special Defense!", target.pbThis,getAbilityName(target.ability)))
+              end
+              if target.pbCanReduceStatStage?(PBStats::SPEED,false,true)
+                target.pbReduceStatBasic(PBStats::SPEED,1)
+                @battle.pbCommonAnimation("StatDown",target,nil)
+                @battle.pbDisplay(_INTL("{1}'s {2} lowered its Speed!", target.pbThis,getAbilityName(target.ability)))
+              end
+            end
           end
         end
         if target.crested == :NOCTOWL

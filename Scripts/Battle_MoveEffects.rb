@@ -242,6 +242,27 @@ class PokeBattle_Move_004 < PokeBattle_Move
     pbShowAnimation(@move,attacker,opponent,hitnum,alltargets,showanimation)
     opponent.effects[:Yawn]=2
     @battle.pbDisplay(_INTL("{1} made {2} drowsy!",attacker.pbThis,opponent.pbThis(true)))
+    #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Snorlax)
+    if attacker.crested == :SNORLAX
+      randomup=[]
+      failsafe=0
+      loop do
+        failsafe+=1
+        break if failsafe==1000
+        randomnumber=1+@battle.pbRandom(5)
+        if !attacker.pbTooHigh?(randomnumber)
+          randomup.push(randomnumber)
+          break
+        end
+      end
+      if failsafe!=1000
+        attacker.stages[randomup[0]]+=1
+        attacker.stages[randomup[0]]=6 if attacker.stages[randomup[0]]>6
+        @battle.pbCommonAnimation("StatUp",attacker,nil)
+        @battle.pbDisplay(_INTL("{1}'s Crest raised its {2}!",attacker.pbThis,attacker.pbGetStatName(randomup[0])))
+      end
+    end
+    #MODDED - CRESTS AND AEVIAN FORMS MOD - END
     return 0
   end
 end
@@ -638,6 +659,27 @@ class PokeBattle_Move_011 < PokeBattle_Move
   end
 
   def pbMoveFailed(attacker,opponent)
+    #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Snorlax)
+    if attacker.crested == :SNORLAX
+      randomup=[]
+      failsafe=0
+      loop do
+        failsafe+=1
+        break if failsafe==1000
+        randomnumber=1+@battle.pbRandom(5)
+        if !attacker.pbTooHigh?(randomnumber)
+          randomup.push(randomnumber)
+          break
+        end
+      end
+      if failsafe!=1000
+        attacker.stages[randomup[0]]+=1
+        attacker.stages[randomup[0]]=6 if attacker.stages[randomup[0]]>6
+        @battle.pbCommonAnimation("StatUp",attacker,nil)
+        @battle.pbDisplay(_INTL("{1}'s Crest raised its {2}!",attacker.pbThis,attacker.pbGetStatName(randomup[0])))
+      end
+    end
+    #MODDED - CRESTS AND AEVIAN FORMS MOD - END
     return attacker.status!=:SLEEP && (attacker.ability != :COMATOSE || @battle.FE == :ELECTERRAIN)
   end
 end
@@ -864,7 +906,7 @@ end
 ################################################################################
 class PokeBattle_Move_01A < PokeBattle_Move
   def pbEffect(attacker,opponent,hitnum=0,alltargets=nil,showanimation=true)
-    #MODDED - CRESTS AND AEVIAN FORMS MOD - START
+    #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Kantoan Ninetales)
     if attacker.crested != :NINETALES or attacker.form != 0
     #MODDED - CRESTS AND AEVIAN FORMS MOD - END
       if attacker.pbOwnSide.effects[:Safeguard]>0
@@ -879,7 +921,7 @@ class PokeBattle_Move_01A < PokeBattle_Move
         @battle.pbDisplay(_INTL("The foe's team became cloaked in a mystical veil!"))
       end
       return 0
-    #MODDED - CRESTS AND AEVIAN FORMS MOD - START
+    #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Kantoan Ninetales)
     else
       temp = false
       if attacker.pbOwnSide.effects[:Safeguard]>0
@@ -4990,6 +5032,27 @@ class PokeBattle_Move_0B4 < PokeBattle_Move
        attacker.pbUseMoveSimple(attacker.moves[choice].move,choice,attacker.pbOppositeOpposing.index)
     end
     attacker.sleeptalkUsed = false
+    #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Snorlax)
+    if attacker.crested == :SNORLAX
+      randomup=[]
+      failsafe=0
+      loop do
+        failsafe+=1
+        break if failsafe==1000
+        randomnumber=1+@battle.pbRandom(5)
+        if !attacker.pbTooHigh?(randomnumber)
+          randomup.push(randomnumber)
+          break
+        end
+      end
+      if failsafe!=1000
+        attacker.stages[randomup[0]]+=1
+        attacker.stages[randomup[0]]=6 if attacker.stages[randomup[0]]>6
+        @battle.pbCommonAnimation("StatUp",attacker,nil)
+        @battle.pbDisplay(_INTL("{1}'s Crest raised its {2}!",attacker.pbThis,attacker.pbGetStatName(randomup[0])))
+      end
+    end
+    #MODDED - CRESTS AND AEVIAN FORMS MOD - END
     return 0
   end
 end
@@ -6238,6 +6301,27 @@ class PokeBattle_Move_0D9 < PokeBattle_Move
     @battle.pbDisplay(_INTL("{1} slept and became healthy!",attacker.pbThis))
     hp=attacker.pbRecoverHP(attacker.totalhp-attacker.hp,true)
     @battle.pbDisplay(_INTL("{1}'s HP was restored.",attacker.pbThis)) if hp>0
+    #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Snorlax)
+    if attacker.crested == :SNORLAX
+      randomup=[]
+      failsafe=0
+      loop do
+        failsafe+=1
+        break if failsafe==1000
+        randomnumber=1+@battle.pbRandom(5)
+        if !attacker.pbTooHigh?(randomnumber)
+          randomup.push(randomnumber)
+          break
+        end
+      end
+      if failsafe!=1000
+        attacker.stages[randomup[0]]+=1
+        attacker.stages[randomup[0]]=6 if attacker.stages[randomup[0]]>6
+        @battle.pbCommonAnimation("StatUp",attacker,nil)
+        @battle.pbDisplay(_INTL("{1}'s Crest raised its {2}!",attacker.pbThis,attacker.pbGetStatName(randomup[0])))
+      end
+    end
+    #MODDED - CRESTS AND AEVIAN FORMS MOD - END
     return 0
   end
 end
@@ -8791,11 +8875,35 @@ class PokeBattle_Move_140 < PokeBattle_Move
       return -1
     end
     if @battle.pbRandom(65536)<(65536/(3**attacker.effects[:ProtectRate])).floor
-      attacker.effects[:Protect]=:SpikyShield
-      attacker.effects[:ProtectRate]+=1
-      @battle.pbAnimation(@move,attacker,nil)
-      @battle.pbDisplay(_INTL("{1} shielded itself against damage!",attacker.pbThis))
-      return 0
+      #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Chesnaught)
+      if attacker.crested == :CHESNAUGHT
+        substituteFailed = false
+        if attacker.effects[:Substitute]>0
+          @battle.pbDisplay(_INTL("{1} already has a substitute!",attacker.pbThis))
+          substituteFailed = true
+        end
+        sublife=[(attacker.totalhp/4.0).floor,1].max
+        if attacker.hp<=sublife
+          @battle.pbDisplay(_INTL("It was too weak to make a substitute!"))
+          substituteFailed = true
+        end
+        if substituteFailed == false
+          attacker.pbReduceHP(sublife,false,false)
+          attacker.effects[:UsingSubstituteRightNow]=true
+          attacker.battle.scene.pbAnimation(self,attacker,opponent,hitnum)  #pbShowAnimation(@move,attacker,nil,hitnum,alltargets,true)
+          attacker.effects[:UsingSubstituteRightNow]=false
+        end
+        #@battle.scene.pbSubstituteSprite(attacker,attacker.pbIsOpposing?(1))
+        attacker.effects[:MultiTurn]=0
+        attacker.effects[:MultiTurnAttack]=0
+        attacker.effects[:Substitute]=sublife
+        @battle.pbDisplay(_INTL("{1} put in a substitute!",attacker.pbThis))
+        #MODDED - CRESTS AND AEVIAN FORMS MOD - END
+        attacker.effects[:Protect]=:SpikyShield
+        attacker.effects[:ProtectRate]+=1
+        @battle.pbAnimation(@move,attacker,nil)
+        @battle.pbDisplay(_INTL("{1} shielded itself against damage!",attacker.pbThis))
+      end
     else
       attacker.effects[:ProtectRate]=0
       @battle.pbDisplay(_INTL("But it failed!"))

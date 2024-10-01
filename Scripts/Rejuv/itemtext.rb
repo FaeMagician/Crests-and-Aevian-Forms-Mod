@@ -10036,5 +10036,85 @@ ITEMHASH = {
 	:noUseInBattle => true,
 	:noUse => true,
 },
+
+:ARCACREST => {
+  :ID => 1107,
+	:name => "Arcanine Crest",
+	:desc => "Kantoan Arcanine summons Harsh Sunlight upon being switched in. Its Normal-type moves become Fire-type.",
+	:price => 0,
+	:crest => true,
+	:noUseInBattle => true,
+	:noUse => true,
+},
+
+:SNORCREST => {
+  :ID => 1108,
+	:name => "Snorlax Crest",
+	:desc => "Moves related to sleeping boost a random one of Snorlax's stats by a stage. Does not apply to Evasion, Accuracy, or Critical Hit chance, only the main 5 boostable stats.",
+	:price => 0,
+	:crest => true,
+	:noUseInBattle => true,
+	:noUse => true,
+},
+
+:BIBACREST => {
+  :ID => 1109,
+	:name => "Bibarel Crest",
+	:desc => "Defense Curl is activated when Bibarel is switched in, doubling Rollout's power. Bibarel's accuracy is boosted by one stage.",
+	:price => 0,
+	:crest => true,
+	:noUseInBattle => true,
+	:noUse => true,
+},
+
+:CHESCREST => {
+  :ID => 1110,
+	:name => "Chesnaught Crest",
+	:desc => "Spiky Shield also applies Substitute. This still costs the user HP, like with Substitute.",
+	:price => 0,
+	:crest => true,
+	:noUseInBattle => true,
+	:noUse => true,
+},
+
+:AVALCREST => {
+  :ID => 1111,
+	:name => "Avalugg Crest",
+	:desc => "When Avalugg is hit, as long as it has less than 84% of its HP remaining, its Special Defense is raised by one stage, and its speed lowered by the same amount. If it has 84% or more of its HP remaining, this only has a 25% of occurring.",
+	:price => 0,
+	:crest => true,
+	:noUseInBattle => true,
+	:noUse => true,
+},
+
+:PRIMACREST => {
+  :ID => 1112,
+	:name => "Primarina Crest",
+	:desc => "All sound-based moves gain the Fairy typing, either replacing its normal Typing, or as a secondary Type if Primarina has the Liquid Voice ability.",
+	:price => 0,
+	:crest => true,
+	:noUseInBattle => true,
+	:noUse => true,
+},
+
+:TOGECREST => {
+  :ID => 1113,
+	:name => "Togekiss Crest",
+	:desc => "All of Togekiss's stats are boosted by 5% per Shiny Pokemon on the user's team, even if they're fainted.",
+	:price => 0,
+	:crest => true,
+	:noUseInBattle => true,
+	:noUse => true,
+},
+
+:SWAMPCREST => {
+  :ID => 1114,
+	:name => "Swampert Crest",
+	:desc => "Swampert's mud-based moves are twice as powerful. Its Normal-type moves become Ground-type.",
+	:price => 0,
+	:crest => true,
+	:noUseInBattle => true,
+	:noUse => true,
+},
 #MODDED - CRESTS AND AEVIAN FORMS MOD - END
 }
