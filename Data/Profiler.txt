@@ -1,3 +1,3 @@
-Amount of frames that passed: 36911921
+Amount of frames that passed: 18061021
 call time  cumulative   self        calls
      ms   seconds   seconds           name

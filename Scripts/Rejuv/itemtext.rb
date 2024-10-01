@@ -10026,7 +10026,7 @@ ITEMHASH = {
 	:noUseInBattle => true,
 	:noUse => true,
 },
-#MODDED - CRESTS AND AEVIAN FORMS MOD - START
+#MODDED - CRESTS AND AEVIAN FORMS MOD - START (Implementing Crest items)
 :NINECREST => {
 	:ID => 1106,
 	:name => "Ninetales Crest",

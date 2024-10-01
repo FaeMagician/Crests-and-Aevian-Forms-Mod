@@ -88,13 +88,13 @@ class PokeBattle_Battler
     :Round, :ShellTrap, :SkyDrop, :SmackDown, :Snatch, :Tantrum, :TarShot, :Torment,
     :Trace, :Transform, :Truant, :TyphBond,:UsingSubstituteRightNow, :Shelter, :SwampWeb]
   #turn count vars
-  TurnEff = [:Bide, :Charge, :Confusion, :Disable, :Embargo, :Encore, 
-    :FuryCutter, :HealBlock, :HyperBeam, :LaserFocus, :LockOn, :MagnetRise, 
-    :Metronome, :MultiTurn, :Outrage, :PerishSong, :Substitute, :Taunt, 
+  TurnEff = [:Bide, :Charge, :Confusion, :Disable, :Embargo, :Encore,
+    :FuryCutter, :HealBlock, :HyperBeam, :LaserFocus, :LockOn, :MagnetRise,
+    :Metronome, :MultiTurn, :Outrage, :PerishSong, :Substitute, :Taunt,
     :Telekinesis, :ThroatChop, :Toxic, :Uproar, :Yawn, :TwoTurnAttack,:ChtonicMalady]
 
   #position vars
-  PosEff = [:Attract, :BideTarget, :Counter, :MirrorCoat, :LeechSeed, :LockOnPos, :MeanLook, 
+  PosEff = [:Attract, :BideTarget, :Counter, :MirrorCoat, :LeechSeed, :LockOnPos, :MeanLook,
     :MirrorCoatTarget, :CounterTarget, :MultiTurnUser, :Octolock, :Petrification, :ShellTrapTarget]
 
   #other counter vars
@@ -102,9 +102,9 @@ class PokeBattle_Battler
 
   #weirdo shit (usually move objects)
   OtherEff = [:ChoicedMove, :DisableMove, :EncoreMove, :MagicBounce, :Protect] #:TwoTurnAttack
-  
-  BatonEff = [:AquaRing, :Confusion, :Curse, :Embargo, :FocusEnergy, :LaserFocus, 
-    :GastroAcid, :HealBlock, :Ingrain, :LeechSeed, :LockOn, :LockOnPos, :Shelter, 
+
+  BatonEff = [:AquaRing, :Confusion, :Curse, :Embargo, :FocusEnergy, :LaserFocus,
+    :GastroAcid, :HealBlock, :Ingrain, :LeechSeed, :LockOn, :LockOnPos, :Shelter,
     :MagnetRise, :PerishSong, :PerishSongUser, :PowerTrick, :Substitute, :Telekinesis, :MeanLook]
 
   PermEff = [:FutureSight , :FutureSightMove , :FutureSightUser , :FutureSightPokemonIndex , :HealingWish , :LunarDance , :Wish , :WishAmount , :WishMaker , :ZHeal]
@@ -173,7 +173,7 @@ class PokeBattle_Battler
     if self.chargeAttack
       chargeAttack = self.chargeAttack
       return true if chargeAttack[:canAttack] && chargeAttack[:canAttack]==false
-      return false if (self.turncount % chargeAttack[:turns] == 0 && chargeAttack[:continueCharging]) 
+      return false if (self.turncount % chargeAttack[:turns] == 0 && chargeAttack[:continueCharging])
       return false if self.turncount > chargeAttack[:turns] && !chargeAttack[:continueCharging]
       return true
     end
@@ -297,21 +297,21 @@ class PokeBattle_Battler
     w=1 if w<1
     return w
   end
-  
+
   def isbossmon
     return false if !Rejuv
     return (@pokemon) ? @pokemon.isbossmon : false
-  end 
+  end
 
   def issossmon
     return false if !Rejuv
     return (@pokemon) ? @pokemon.sosmon : false
   end
-  
+
   def owned
     return (@pokemon) ? $Trainer.pokedex.dexList[@pokemon.species][:owned?] && !@battle.opponent : false
   end
-  
+
 
 ################################################################################
 # Creating a battler
@@ -339,7 +339,7 @@ class PokeBattle_Battler
     @roll = 0
     @isbattlernew = nil
     @capturable = false
-    
+
     #blank values
     @name         = ""
     @species      = 0
@@ -370,7 +370,7 @@ class PokeBattle_Battler
     @weight       = nil
 
     pbInitEffects(false,fakebattler)
-    
+
   end
 
   def pbInitPokemon(pkmn,pkmnIndex)
@@ -411,7 +411,7 @@ class PokeBattle_Battler
         zmove = pkmn.zmoves[i]
         @zmoves[i] = PokeBattle_Move.pbFromPBMove(@battle,zmove,pkmn,@moves[i]) if !zmove.nil?
       end
-    else 
+    else
       @zmoves = nil
     end
     @iv           = pkmn.iv
@@ -426,12 +426,12 @@ class PokeBattle_Battler
         @pokemon.prismPower = false
       end
     end
-     
+
   end
 
   def pbInitEffects(batonpass, fakebattler=false)
-    oldeffects = @effects.nil? ? nil : @effects.clone 
-    
+    oldeffects = @effects.nil? ? nil : @effects.clone
+
     #effects
     @effects      = {}
     #bulk effects
@@ -458,7 +458,7 @@ class PokeBattle_Battler
     @effects[:BouncedMove]      = 0 #remove later.
     @effects[:Disguise]         = (self.species==:MIMIKYU && self.form==0) # Mimikyu
     @effects[:IceFace]          = (self.species==:EISCUE && self.form==0) # Eiscue
-    if (self.ability == :ILLUSION || self.crested == :ZOROARK) 
+    if (self.ability == :ILLUSION || self.crested == :ZOROARK)
       party=@battle.pbPartySingleOwner(@index) #new method for splitting teams
       party=party.find_all {|item| item && !item.egg? && item.hp>0 }
       if party[party.length-1] != @pokemon && party.length > 0
@@ -466,7 +466,7 @@ class PokeBattle_Battler
         @effects[:Illusion].form = party[party.length-1].form.clone
       end
     else
-      @effects[:Illusion] 
+      @effects[:Illusion]
     end
 
     #non-effects
@@ -502,7 +502,7 @@ class PokeBattle_Battler
         @battle.battlers[i].effects[:Octolock]=-1
       end
     end
-    
+
     if batonpass
       @effects[:LockOn]=2 if oldeffects[:LockOn]>0
       if oldeffects[:PowerTrick]
@@ -662,11 +662,11 @@ class PokeBattle_Battler
     end
   end
 
-  def name 
+  def name
     return @effects[:Illusion] != nil  ? @effects[:Illusion].name : @name
-  end 
+  end
 
-  def species 
+  def species
     return @effects[:Illusion] != nil  ? @effects[:Illusion].species : @species
   end
 
@@ -700,7 +700,7 @@ class PokeBattle_Battler
   end
 
 # i am leaving them here but both of the next 2 methods are depreciated, don't use them
-# they checks things we handle entirely differently now, so all they do is add 
+# they checks things we handle entirely differently now, so all they do is add
 # tiny bits of extra prcoessing work when called, for no gain - Falirion
   def abilityWorks?(ignorefainted=false)
     return false if self.isFainted? if !ignorefainted
@@ -816,7 +816,7 @@ class PokeBattle_Battler
     if self.itemWorks?
       if (self.item == :CHOICESCARF)
         speed=(speed*1.5).floor
-      elsif (self.item == :MACHOBRACE) || (self.item == :POWERWEIGHT) || (self.item == :POWERBRACER) || (self.item == :POWERBELT) || (self.item == :POWERANKLET) || (self.item == :POWERLENS) || (self.item == :POWERBAND)|| 
+      elsif (self.item == :MACHOBRACE) || (self.item == :POWERWEIGHT) || (self.item == :POWERBRACER) || (self.item == :POWERBELT) || (self.item == :POWERANKLET) || (self.item == :POWERLENS) || (self.item == :POWERBAND)||
         (self.item == :CANONPOWERWEIGHT) || (self.item == :CANONPOWERBRACER) || (self.item == :CANONPOWERBELT) || (self.item == :CANONPOWERANKLET) || (self.item == :CANONPOWERLENS) || (self.item == :CANONPOWERBAND)
         speed=(speed/2.0).floor
       elsif @battle.FE == :DEEPEARTH && self.item == :FLOATSTONE
@@ -853,7 +853,7 @@ class PokeBattle_Battler
 
   def pbRecoverHP(amt,anim=false)
     # i am sure this will never cause issues /s
-    # reduces healing effects on backalley if the recover amount isn't 100% of a mons HP 
+    # reduces healing effects on backalley if the recover amount isn't 100% of a mons HP
     # due to AI used potions calling this method has to check from which method it's being called to not reduce healing effect of AI potions - Fal
     if @battle.FE == :BACKALLEY && !(amt >= @totalhp) && !(caller_locations.any? {|string| string.to_s.include?("pbEnemyUseItem")})
       amt= (amt*0.67).floor
@@ -1038,7 +1038,7 @@ class PokeBattle_Battler
     end
     return count
   end
-  
+
   def pbEnemyNonActivePokemonCount()
     count=0
     party=@battle.pbParty(pbOppositeOpposing.index)
@@ -1051,7 +1051,7 @@ class PokeBattle_Battler
     end
     return count
   end
-  
+
   def pbEnemyFaintedPokemonCount()
     count=0
     party=@battle.pbParty(pbOppositeOpposing.index)
@@ -1113,7 +1113,7 @@ class PokeBattle_Battler
     if (self.pokemon && self.pokemon.species == :CHERRIM) && !self.isFainted?
       if (self.ability == :FLOWERGIFT)
         # Cherrim Crest
-        if self.crested == :CHERRIM || (@battle.pbWeather == :SUNNYDAY && !self.hasWorkingItem(:UTILITYUMBRELLA)) || 
+        if self.crested == :CHERRIM || (@battle.pbWeather == :SUNNYDAY && !self.hasWorkingItem(:UTILITYUMBRELLA)) ||
           @battle.ProgressiveFieldCheck(PBFields::FLOWERGARDEN) || @battle.FE == :BEWITCHED
           if self.form!=1
             self.form=1
@@ -1163,10 +1163,10 @@ class PokeBattle_Battler
           elsif @battle.FE == :BURNING ||  @battle.FE == :SUPERHEATED
             if self.form==2
               self.form=3; transformed = true
-            end  
+            end
           elsif @hp<=((@totalhp/2.0).floor)
             if self.form == 0
-              self.form = 1; transformed=true   
+              self.form = 1; transformed=true
             elsif self.form == 2
               self.form = 3; transformed=true
             end
@@ -1227,7 +1227,7 @@ class PokeBattle_Battler
       end
 
       # Battler update
-      if self.species == :AEGISLASH && (self.type1 != @pokemon.type1 || self.type2 != @pokemon.type2) 
+      if self.species == :AEGISLASH && (self.type1 != @pokemon.type1 || self.type2 != @pokemon.type2)
         pbUpdate(false)
       else
         pbUpdate(true)
@@ -1235,7 +1235,7 @@ class PokeBattle_Battler
       @battle.scene.pbChangePokemon(self,@pokemon)
       @battle.pbDisplay(_INTL("{1} transformed!",pbThis))
 
-      if (self.ability == :STANCECHANGE) && (@battle.FE == :FAIRYTALE || (Rejuv && @battle.FE == :CHESS)) 
+      if (self.ability == :STANCECHANGE) && (@battle.FE == :FAIRYTALE || (Rejuv && @battle.FE == :CHESS))
         if (self.form == 0)
           self.pbReduceStat(PBStats::ATTACK,1,abilitymessage:false)
           self.pbIncreaseStat(PBStats::DEFENSE,1,abilitymessage:false)
@@ -1299,10 +1299,10 @@ class PokeBattle_Battler
       self.pbBreakDisguise
       @battle.pbDisplayPaused(_INTL("{1} transformed!",self.name))
       self.effects[:IceFace]=false
-    end  
+    end
     # Download mons on Dimensional
     if @battle.field.effect == :DIMENSIONAL && self.ability == :DOWNLOAD
-      type = @battle.getRandomType 
+      type = @battle.getRandomType
       self.type1=type
       self.type2=nil
       @battle.pbDisplay(_INTL("{1} transformed into the {2} type!",self.pbThis,type.capitalize))
@@ -1321,9 +1321,9 @@ class PokeBattle_Battler
             @battle.scene.pbChangePokemon(self,@pokemon)
             @battle.pbDisplay(_INTL("{1} transformed into its Complete Forme!",pbThis))
             if @battle.FE == :DEEPEARTH
-              for stat in 1..5 
+              for stat in 1..5
                 statraise = false
-                if !pbTooHigh?(stat)  
+                if !pbTooHigh?(stat)
                   pbIncreaseStatBasic(stat,1)
                   statraise = true
                 end
@@ -1332,7 +1332,7 @@ class PokeBattle_Battler
                 @battle.pbCommonAnimation("StatUp",self,nil)
                 @battle.pbDisplay(_INTL("The core's energy empowered {1}!",pbThis))
               end
-            end 
+            end
           end
         end
       end
@@ -1342,12 +1342,12 @@ class PokeBattle_Battler
       (self.ability == :MULTITYPE && self.species == :ARCEUS)) && !self.isFainted?
       oldform = self.form
       if @battle.field.effect == :NEWWORLD
-        @battle.NWTypeRoll(self) 
+        @battle.NWTypeRoll(self)
         transformed=true
         return
       else
         if oldform==0 #Trying to avoid overwriting PBS set forms for them
-          self.form = formFromItem 
+          self.form = formFromItem
           self.form += $cache.types.length if ($game_switches[:Pulse_Arceus] && mon.species == :ARCEUS && mon.pokemon.trainerID == 00000)
         end
       end
@@ -1398,7 +1398,7 @@ class PokeBattle_Battler
     elsif PBFields::SANDYCLOAK.include?(@battle.FE)
       self.form=1 # Sandy CloaK
     else
-      env=@battle.environment 
+      env=@battle.environment
       if env==:Sand || env==:Rock || env==:Cave
         self.form=1 # Sandy Cloak
       elsif env==:Grass || env==:TallGrass || env==:MovingWater || env==:StillWater || env==:Underwater
@@ -1469,10 +1469,10 @@ class PokeBattle_Battler
   def pbAbilitiesOnSwitchIn(onactive)
     return if @hp<=0
     if (self.species == :KYOGRE && self.item== :BLUEORB) || (self.species == :GROUDON && self.item== :REDORB)
-      if self.form == 0 
+      if self.form == 0
         if self.species == :KYOGRE
           @battle.pbCommonAnimation("PrimalReversionKyogre",self,nil)
-        else          
+        else
           @battle.pbCommonAnimation("PrimalReversionGroudon",self,nil)
         end
         @pokemon.makePrimal
@@ -1520,7 +1520,7 @@ class PokeBattle_Battler
         if (Rejuv && @battle.FE == :GRASSY)
           setField(:DESERT)
           @battle.pbDisplay(_INTL("The extremely harsh sunlight dried out the meadow!"))
-        end 
+        end
         @battle.weather=:SUNNYDAY
         @battle.pbCommonAnimation("Sunny",nil,nil)
       end
@@ -1557,7 +1557,7 @@ class PokeBattle_Battler
           end
         end
       end
-      
+
       if !@battle.pbCheckGlobalAbility(:DELTASTREAM) && !@battle.pbCheckGlobalAbility(:TEMPEST) && ![:Winds,:BlowingLeaves,:SwirlingLeaves].include?($game_screen.weather_type) && !((self.pbOwnSide.effects[:Tailwind]>0 || self.pbOpposingSide.effects[:Tailwind]>0) && [:MOUNTAIN,:SNOWYMOUNTAIN,:VOLCANICTOP,:SKY].include?(@battle.FE))
         if @battle.weather == :STRONGWINDS
           @battle.pbDisplay(_INTL("The mysterious air current has dissipated!"))
@@ -1618,7 +1618,7 @@ class PokeBattle_Battler
         @battle.pbDisplay(_INTL("The frozen dimension remains unchanged."))
       else
         @battle.pbAnimation(:GRASSYTERRAIN,self,nil)
-        @battle.setField(:GRASSY,duration) 
+        @battle.setField(:GRASSY,duration)
         @battle.pbDisplay(_INTL("The terrain became grassy!"))
       end
     elsif self.ability == :MISTYSURGE && onactive && ((!Rejuv && @battle.canChangeFE?(:MISTY)) || @battle.canChangeFE?([:MISTY,:CORROSIVEMIST,:DRAGONSDEN])) && !(@battle.state.effects[:MISTY] > 0)
@@ -1637,19 +1637,19 @@ class PokeBattle_Battler
         @battle.setField(:PSYTERRAIN,duration)
         @battle.pbDisplay(_INTL("The terrain became mysterious!"))
       end
-    elsif self.ability == :DARKSURGE && onactive 
+    elsif self.ability == :DARKSURGE && onactive
       if @battle.FE== :DARKNESS3
         self.pbIncreaseStatBasic(PBStats::SPEED,1)
         @battle.pbCommonAnimation("StatUp",self,nil)
         @battle.pbDisplay(_INTL("{1}'s Dark Surge raised its Speed!", pbThis))
       elsif @battle.FE== :DARKNESS1
-        @battle.setField(:DARKNESS2) 
+        @battle.setField(:DARKNESS2)
         @battle.pbDisplay(_INTL("{1}'s Dark Surge deepened the darkness!",pbThis))
       elsif @battle.FE== :DARKNESS2
-        @battle.setField(:DARKNESS3) 
+        @battle.setField(:DARKNESS3)
         @battle.pbDisplay(_INTL("{1}'s Dark Surge deepened the darkness!",pbThis))
       elsif @battle.canChangeFE?(:DARKNESS2)
-        @battle.setField(:DARKNESS2,3) 
+        @battle.setField(:DARKNESS2,3)
         @battle.pbDisplay(_INTL("Darkness gathers..."))
       end
     end
@@ -1667,7 +1667,7 @@ class PokeBattle_Battler
         end
       end
       @battle.pbDisplay(_INTL("{1}'s {2} removed {3}'s stat changes!",pbThis,getAbilityName(self.ability),pbPartner.pbThis(true))) if worked
-    end    
+    end
 
     # Weather Abilities
     if (ability == :DRIZZLE) && onactive && @battle.weather!=:RAINDANCE
@@ -1788,7 +1788,30 @@ class PokeBattle_Battler
         end
       end
     end
-    if (ability== :TEMPEST) && onactive 
+    #MODDED - CRESTS AND AEVIAN FORMS MOD - START
+    if self.crested == :NINETALES and self.form == 1
+      if self.pbOwnSide.effects[:AuroraVeil]>0 || ((@battle.weather!=:HAIL ||
+        @battle.pbCheckGlobalAbility(:AIRLOCK) || @battle.pbCheckGlobalAbility(:CLOUDNINE)) &&
+        !([:DARKCRYSTALCAVERN,:RAINBOW,:ICY,:CRYSTALCAVERN,:SNOWYMOUNTAIN,:MIRROR,:STARLIGHT,:FROZENDIMENSION].include?(@battle.FE)))
+        @battle.pbDisplay(_INTL("{1}'s Crest failed to form an Aurora!"))
+        return -1
+      end
+      # TODO - Animation
+      self.pbOwnSide.effects[:AuroraVeil]=5
+      self.pbOwnSide.effects[:AuroraVeil]=8 if self.hasWorkingItem(:LIGHTCLAY)
+      self.pbOwnSide.effects[:AuroraVeil]=8 if @battle.FE == :MIRROR
+      if !@battle.pbIsOpposing?(self.index)
+        @battle.pbDisplay(_INTL("An Aurora is protecting your team!"))
+      else
+        @battle.pbDisplay(_INTL("An Aurora is protecting the opposing team!"))
+      end
+      if @battle.FE == :MIRROR && self.pbCanIncreaseStatStage?(PBStats::EVASION,false)
+        self.pbIncreaseStat(PBStats::EVASION,1,abilitymessage:false)
+      end
+      return 0
+    end
+    #MODDED - CRESTS AND AEVIAN FORMS MOD - END
+    if (ability== :TEMPEST) && onactive
       weathers=rand(5)
       @battle.storm9 = true
       case weathers
@@ -1837,7 +1860,7 @@ class PokeBattle_Battler
       else
         @battle.pbDisplay(_INTL("The weather refreshed the rainbow!"))
       end
-    end 
+    end
     #### END OF WEATHER ABILITIES
     if onactive
       case self.ability
@@ -1935,7 +1958,7 @@ class PokeBattle_Battler
         end
         if ospdef>odef
           if !pbTooHigh?(PBStats::ATTACK)
-            if [:FACTORY,:CITY,:BACKALLEY].include?(@battle.FE) 
+            if [:FACTORY,:CITY,:BACKALLEY].include?(@battle.FE)
               pbIncreaseStatBasic(PBStats::ATTACK,2)
               @battle.pbCommonAnimation("StatUp",self)
               @battle.pbDisplay(_INTL("{1}'s {2} sharply boosted its Attack!", pbThis,getAbilityName(ability)))
@@ -2093,7 +2116,7 @@ class PokeBattle_Battler
           pbIncreaseStatBasic(PBStats::EVASION,1)
           @battle.pbCommonAnimation("StatUp",self,nil)
           @battle.pbDisplay(_INTL("{1}'s item boosted its Evasion!", pbThis,getAbilityName(ability)))
-        end 
+        end
       end
       # Keen Eye / Compound Eye
       if (self.ability == :KEENEYE || self.ability == :COMPOUNDEYES || self.hasWorkingItem(:ZOOMLENS) || self.hasWorkingItem(:WIDELENS)) && onactive
@@ -2117,7 +2140,7 @@ class PokeBattle_Battler
           end
         end
       end
-      
+
     end
     # Fairy Tale Field Entry
     if @battle.FE == :FAIRYTALE
@@ -2215,7 +2238,7 @@ class PokeBattle_Battler
           @battle.pbDisplay(_INTL("{1}'s {2} flared up with starlight!",
            pbThis,getAbilityName(ability)))
         end
-        if self.pbPartner.ability == :MIRRORARMOR 
+        if self.pbPartner.ability == :MIRRORARMOR
           self.pbPartner.effects[:FollowMe] = true
           @battle.pbAnimation(:SPOTLIGHT,self,self.pbPartner)
           @battle.pbDisplay(_INTL("{1}'s dazzling shine put a spotlight on its partner!",pbThis))
@@ -2311,7 +2334,7 @@ class PokeBattle_Battler
           @battle.pbCommonAnimation("StatUp",self,nil)
           @battle.pbDisplay(_INTL("{1}'s {2} raised its defense in the skies!",
               pbThis,getAbilityName(ability)))
-        end     
+        end
       end
       if (self.ability == :LEVITATE || self.ability == :SOLARIDOL || self.ability == :LUNARIDOL) && onactive
         if !pbTooHigh?(PBStats::SPEED)
@@ -2327,37 +2350,37 @@ class PokeBattle_Battler
             pbThis,getAbilityName(ability)))
       end
     end
-    # Colosseum Field Entry  
-    if @battle.FE == :COLOSSEUM 
+    # Colosseum Field Entry
+    if @battle.FE == :COLOSSEUM
       if (self.ability == :DAUNTLESSSHIELD || self.ability == :BATTLEARMOR || self.ability == :SHELLARMOR) && onactive
-        if !pbTooHigh?(PBStats::DEFENSE) 
-          pbIncreaseStatBasic(PBStats::DEFENSE,1)  
-          @battle.pbCommonAnimation("StatUp",self,nil)  
-          @battle.pbDisplay(_INTL("{1}'s shining armor boosted its Defense!",pbThis))  
-        end       
-      end  
-      if (self.ability == :DAUNTLESSSHIELD || self.ability == :MIRRORARMOR || self.ability == :MAGICGUARD) && onactive 
-        if !pbTooHigh?(PBStats::SPDEF) 
-          pbIncreaseStatBasic(PBStats::SPDEF,1)  
-          @battle.pbCommonAnimation("StatUp",self,nil)  
-          @battle.pbDisplay(_INTL("{1}'s magical power boosted its Special Defense!",pbThis))  
-        end       
-      end  
-      if (self.ability == :INTREPIDSWORD || self.ability == :NOGUARD || self.ability == :JUSTIFIED) && onactive   
-        if !pbTooHigh?(PBStats::ATTACK)  
-          pbIncreaseStatBasic(PBStats::ATTACK,1)  
-          @battle.pbCommonAnimation("StatUp",self,nil)  
-          @battle.pbDisplay(_INTL("{1}'s ferocious heart boosted its Attack!",pbThis))  
-        end       
-      end  
+        if !pbTooHigh?(PBStats::DEFENSE)
+          pbIncreaseStatBasic(PBStats::DEFENSE,1)
+          @battle.pbCommonAnimation("StatUp",self,nil)
+          @battle.pbDisplay(_INTL("{1}'s shining armor boosted its Defense!",pbThis))
+        end
+      end
+      if (self.ability == :DAUNTLESSSHIELD || self.ability == :MIRRORARMOR || self.ability == :MAGICGUARD) && onactive
+        if !pbTooHigh?(PBStats::SPDEF)
+          pbIncreaseStatBasic(PBStats::SPDEF,1)
+          @battle.pbCommonAnimation("StatUp",self,nil)
+          @battle.pbDisplay(_INTL("{1}'s magical power boosted its Special Defense!",pbThis))
+        end
+      end
       if (self.ability == :INTREPIDSWORD || self.ability == :NOGUARD || self.ability == :JUSTIFIED) && onactive
-        if !pbTooHigh?(PBStats::SPATK) 
-          pbIncreaseStatBasic(PBStats::SPATK,1)  
-          @battle.pbCommonAnimation("StatUp",self,nil)  
-          @battle.pbDisplay(_INTL("{1}'s ferocious heart boosted its Special Attack!",pbThis))  
-        end       
-      end  
-    end 
+        if !pbTooHigh?(PBStats::ATTACK)
+          pbIncreaseStatBasic(PBStats::ATTACK,1)
+          @battle.pbCommonAnimation("StatUp",self,nil)
+          @battle.pbDisplay(_INTL("{1}'s ferocious heart boosted its Attack!",pbThis))
+        end
+      end
+      if (self.ability == :INTREPIDSWORD || self.ability == :NOGUARD || self.ability == :JUSTIFIED) && onactive
+        if !pbTooHigh?(PBStats::SPATK)
+          pbIncreaseStatBasic(PBStats::SPATK,1)
+          @battle.pbCommonAnimation("StatUp",self,nil)
+          @battle.pbDisplay(_INTL("{1}'s ferocious heart boosted its Special Attack!",pbThis))
+        end
+      end
+    end
     if @battle.FE == :INFERNAL
       if (self.ability == :MAGMAARMOR || self.ability == :FLAMEBODY || self.ability == :DESOLATELAND) && onactive
         statraise = false
@@ -2415,13 +2438,13 @@ class PokeBattle_Battler
         @battle.pbDisplay(_INTL("The ancient giant is slow but powerful!")) if statraise || statdrop
       end
       if (self.ability == :MAGNETPULL) && onactive
-        @battle.pbDisplay(_INTL("The strong magnetism causes {1} to float!",self.pbThis)) 
+        @battle.pbDisplay(_INTL("The strong magnetism causes {1} to float!",self.pbThis))
       end
       if (self.ability == :UNAWARE || self.ability == :OBLIVIOUS) && onactive
-        @battle.pbDisplay(_INTL("{1} fails to notice the intense gravity...",self.pbThis)) 
+        @battle.pbDisplay(_INTL("{1} fails to notice the intense gravity...",self.pbThis))
       end
       if (self.ability == :CONTRARY) && onactive
-        @battle.pbDisplay(_INTL("Gravity's just a theory, after all...")) 
+        @battle.pbDisplay(_INTL("Gravity's just a theory, after all..."))
       end
     end
     if @battle.ProgressiveFieldCheck(PBFields::CONCERT)
@@ -2531,7 +2554,7 @@ class PokeBattle_Battler
           @battle.pbDisplay(_INTL("{1}'s Cloud Nine raised its Special Defense!", pbThis))
         end
       end
-    
+
       if self.ability == :FORECAST && onactive
         if !self.pbTooHigh?(PBStats::DEFENSE)
           self.pbIncreaseStatBasic(PBStats::DEFENSE,1)
@@ -2564,7 +2587,7 @@ class PokeBattle_Battler
           @battle.pbDisplay(_INTL("{1}'s Pickpocket raised its Speed!", pbThis))
         end
       end
-    end 
+    end
     if @battle.FE == :DARKNESS3
       if self.ability == :PICKPOCKET && onactive
         if !self.pbTooHigh?(PBStats::SPEED)
@@ -2573,7 +2596,7 @@ class PokeBattle_Battler
           @battle.pbDisplay(_INTL("{1}'s Pickpocket sharply raised its Speed!", pbThis))
         end
       end
-    end 
+    end
     # Dancefloor field from Deso
     if @battle.FE == :DANCEFLOOR
       if self.ability == :MAGICGUARD  && onactive
@@ -2804,7 +2827,7 @@ class PokeBattle_Battler
         end
         for i in 0...4
           next if !choice.moves[i]
-          @moves[i]=PokeBattle_Move.pbFromPBMove(@battle,PBMove.new(choice.moves[i].move),self) 
+          @moves[i]=PokeBattle_Move.pbFromPBMove(@battle,PBMove.new(choice.moves[i].move),self)
           if !(@zmoves.nil? || @item == :INTERCEPTZ)
             @battle.updateZMoveIndexBattler(i,self)
           end
@@ -2996,7 +3019,7 @@ class PokeBattle_Battler
           end
         end
         if target.ability == (:PICKPOCKET)
-          if target.item.nil? && user.item && user.effects[:Substitute]==0 && target.effects[:Substitute]==0 && user.ability != (:STICKYHOLD) && 
+          if target.item.nil? && user.item && user.effects[:Substitute]==0 && target.effects[:Substitute]==0 && user.ability != (:STICKYHOLD) &&
             !@battle.pbIsUnlosableItem(user,user.item) && !@battle.pbIsUnlosableItem(target,user.item) && (@battle.opponent || !@battle.pbIsOpposing?(target.index))
             target.item=user.item
             user.item=nil
@@ -3156,10 +3179,10 @@ class PokeBattle_Battler
           @battle.pbDisplay(_INTL("{1} returned to normal!",target.pbThis))
         end
         # Illusion goes here
-        if (target.ability == :ILLUSION || target.crested == :ZOROARK) 
+        if (target.ability == :ILLUSION || target.crested == :ZOROARK)
           if target.effects[:Illusion]!=nil
             target.effects[:Illusion]=nil
-            @battle.pbAnimation(:TRANSFORM,target,target) if !target.isFainted? 
+            @battle.pbAnimation(:TRANSFORM,target,target) if !target.isFainted?
             @battle.scene.pbChangePokemon(target,target.pokemon)
             @battle.pbDisplay(_INTL("{1}'s {2} was broken!",target.pbThis, getAbilityName(:ILLUSION)))
           end
@@ -3188,7 +3211,7 @@ class PokeBattle_Battler
             end
             if @battle.pbIsWild? && # In a wild battle
               user.pokemon.itemInitial.nil? && !user.isbossmon && !target.isbossmon &&
-              target.pokemon.itemInitial==user.item 
+              target.pokemon.itemInitial==user.item
               user.pokemon.itemInitial=user.item
               user.pokemon.itemReallyInitialHonestlyIMeanItThisTime=user.item
               target.pokemon.itemInitial=nil
@@ -3488,14 +3511,14 @@ class PokeBattle_Battler
         if self.ability == :WIMPOUT
           @battle.pbDisplay(_INTL("{1} has nowhere to run!",self.pbThis))
         elsif self.ability == :EMERGENCYEXIT
-          if self.pbCanIncreaseStatStage?(PBStats::SPEED)  
-            self.pbIncreaseStatBasic(PBStats::SPEED,2)  
-            @battle.pbCommonAnimation("StatUp",user,nil)  
-            @battle.pbDisplay(_INTL("Emergency Exit raised {1}'s Speed!",self.pbThis))  
+          if self.pbCanIncreaseStatStage?(PBStats::SPEED)
+            self.pbIncreaseStatBasic(PBStats::SPEED,2)
+            @battle.pbCommonAnimation("StatUp",user,nil)
+            @battle.pbDisplay(_INTL("Emergency Exit raised {1}'s Speed!",self.pbThis))
           end
-        end 
+        end
       else
-        if (self.ability == :WIMPOUT || self.ability == :EMERGENCYEXIT) && 
+        if (self.ability == :WIMPOUT || self.ability == :EMERGENCYEXIT) &&
           ((@battle.pbCanChooseNonActive?(self.index) && !@battle.pbAllFainted?(@battle.pbParty(self.index))) || @battle.pbIsWild?)
           if @battle.pbIsWild?
             return if @battle.cantescape || $game_switches[:Never_Escape] || self.isbossmon
@@ -3620,7 +3643,7 @@ class PokeBattle_Battler
         if self.status== :PARALYSIS
           healing = 0
           status_berry = true
-        end 
+        end
         status = "paralysis"
       when :CHESTOBERRY
         if self.status== :SLEEP
@@ -3682,13 +3705,13 @@ class PokeBattle_Battler
         end
       when :LANSATBERRY #unique berry, doing the processing now
         if @effects[:FocusEnergy]<3 && self.hp <= health_threshold
-          healing = 0 
+          healing = 0
           message = _INTL("{1} used its {2} to get pumped!",pbThis,itemname)
-          @effects[:FocusEnergy]+=1 
+          @effects[:FocusEnergy]+=1
         end
       when :LEPPABERRY #unique berry, doing the processing now
         if @pokemon.moves.any?{|move| move.move && move.pp==0}
-          healing = 0 
+          healing = 0
           for i in 0...@pokemon.moves.length
             pokemove=@pokemon.moves[i]
             next if pokemove.pp==0 && pokemove.move
@@ -4085,7 +4108,7 @@ class PokeBattle_Battler
       disabled_items = {:item => moveuser.item.clone, :ability => moveuser.ability.clone}
       moveuser.item=nil
       moveuser.ability=nil
-      
+
     end
     if @effects[:FutureSightMove] == :DOOMDESIRE
       move=PokeBattle_Move.pbFromPBMove(@battle,PBMove.new(:DOOMDUMMY),moveuser)
@@ -4210,7 +4233,7 @@ class PokeBattle_Battler
         return false
       end
     end
-    if ((((target.ability == :DAZZLING || target.ability == :QUEENLYMAJESTY || (@battle.FE == :STARLIGHT && target.ability == :MIRRORARMOR)) || 
+    if ((((target.ability == :DAZZLING || target.ability == :QUEENLYMAJESTY || (@battle.FE == :STARLIGHT && target.ability == :MIRRORARMOR)) ||
       (target.pbPartner.ability == :DAZZLING || target.pbPartner.ability == :QUEENLYMAJESTY || (@battle.FE == :STARLIGHT && target.pbPartner.ability == :MIRRORARMOR))) && !target.moldbroken) ||
       @battle.FE == :PSYTERRAIN && !target.isAirborne?) && target.pbPartner!=user
       if (basemove.priorityCheck(user) > 0) || (user.ability == (:PRANKSTER) && !basemove.zmove && !flags[:instructed] && @battle.choices[user.index][2]!=basemove)
@@ -4229,8 +4252,8 @@ class PokeBattle_Battler
       return false
     end
     if Rejuv && @battle.FE == :CHESS && user.ability == :KLUTZ && CHESSMOVES.include?(basemove.move)
-      @battle.pbDisplay(_INTL("It was too much of a klutz to move the chess piece.",target.pbThis))  
-      return false  
+      @battle.pbDisplay(_INTL("It was too much of a klutz to move the chess piece.",target.pbThis))
+      return false
     end
     if (basemove.function==0xDD || basemove.function==0x139 || basemove.function==0x158) && (user.effects[:HealBlock]!=0) # Absorbtion Moves
       @battle.pbDisplay(_INTL("{1} wasn't affected!",target.pbThis))
@@ -4314,9 +4337,9 @@ class PokeBattle_Battler
             user.pbReduceStat(PBStats::DEFENSE,2)
           elsif target.effects[:Protect] == :SpikyShield
             if @battle.FE == :COLOSSEUM
-              user.pbReduceHP((user.totalhp/4.0).floor)  
-            else  
-              user.pbReduceHP((user.totalhp/8.0).floor) 
+              user.pbReduceHP((user.totalhp/4.0).floor)
+            else
+              user.pbReduceHP((user.totalhp/8.0).floor)
             end
             @battle.pbDisplay(_INTL("{1}'s Spiky Shield hurt {2}!",target.pbThis,user.pbThis(true)))
           elsif target.effects[:Protect] == :BanefulBunker && user.pbCanPoison?(false)
@@ -4366,7 +4389,7 @@ class PokeBattle_Battler
           # All non-users
           @battle.pbDisplay(_INTL("{1} avoided the attack!",target.pbThis))
         elsif basemove.function==0xDC # Leech Seed
-          @battle.pbDisplay(_INTL("{1} evaded the attack!",target.pbThis))          
+          @battle.pbDisplay(_INTL("{1} evaded the attack!",target.pbThis))
         elsif basemove.function==0x70 && (((target.ability == (:STURDY) && !target.moldbroken) || user.level < target.level) || target.pokemon.piece==:PAWN && @battle.FE==:CHESS)
           @battle.pbDisplay(_INTL("{1} is unaffected!",target.pbThis))
         elsif basemove.function==0x70 && !((target.ability == (:STURDY)) || (user.level<target.level))
@@ -4449,7 +4472,7 @@ class PokeBattle_Battler
             @battle.scene.pbUnVanishSprite(target)
             @battle.pbDisplay(_INTL("{1} is freed from the Sky Drop effect!",target.pbThis))
           end
-          if @battle.FE == :MIRROR && basemove.basedamage>0 && (targetchoices==:SingleNonUser || basemove.move == :MIRRORCOAT) && 
+          if @battle.FE == :MIRROR && basemove.basedamage>0 && (targetchoices==:SingleNonUser || basemove.move == :MIRRORCOAT) &&
            !basemove.contactMove? && basemove.pbIsSpecial?(type) && target.stages[PBStats::EVASION]>0
             @battle.pbDisplay(_INTL("The attack was reflected by the mirror!",user.pbThis))
             @battle.field.counter = 1
@@ -4646,7 +4669,7 @@ class PokeBattle_Battler
         if chargeAttack[:canAttack]==false
           if chargeAttack[:intermediateattack][:name] != basemove.name
             if chargeAttack[:chargingMessage]
-              if chargeAttack[:chargingMessage].include?("{1}") 
+              if chargeAttack[:chargingMessage].include?("{1}")
                 @battle.pbDisplay(_INTL(chargeAttack[:chargingMessage],pbThis))
               else
                 @battle.pbDisplay(_INTL(chargeAttack[:chargingMessage]))
@@ -4655,9 +4678,9 @@ class PokeBattle_Battler
               @battle.pbDisplay(_INTL("{1} is biding its time...",pbThis))
             end
             return false
-          end 
+          end
         end
-        @battle.pbDisplay(_INTL("{1} turns remaining.",(chargeAttack[:turns]-@turncount))) 
+        @battle.pbDisplay(_INTL("{1} turns remaining.",(chargeAttack[:turns]-@turncount)))
       end
     end
     # UPDATE 2/13/2014
@@ -4711,7 +4734,7 @@ class PokeBattle_Battler
         return
       end
       if (target.isbossmon)
-        bosscheck = bossMoveCheck(basemove,user,target) 
+        bosscheck = bossMoveCheck(basemove,user,target)
         return if bosscheck == 0
       end
       # Check success (accuracy/evasion calculation)
@@ -4806,7 +4829,7 @@ class PokeBattle_Battler
           target.pbRecoverHP([1,((target.damagestate.hplost)/2).floor].max) if !target.isFainted?
           @battle.pbDisplay(_INTL("{1}'s crest causes {2} to take recoil damage and {3} to recover!",
               target.pbThis,user.pbThis(true),target.pbThis))
-          
+
         end
       end
       user.effects[:Tantrum]= (damage == -1)
@@ -4936,14 +4959,14 @@ class PokeBattle_Battler
           if self.ability == :WIMPOUT
             @battle.pbDisplay(_INTL("{1} has nowhere to run!",self.pbThis))
           elsif self.ability == :EMERGENCYEXIT
-            if self.pbCanIncreaseStatStage?(PBStats::SPEED)  
-              self.pbIncreaseStatBasic(PBStats::SPEED,2)  
-              @battle.pbCommonAnimation("StatUp",user,nil)  
-              @battle.pbDisplay(_INTL("Emergency Exit raised {1}'s Speed!",self.pbThis))  
+            if self.pbCanIncreaseStatStage?(PBStats::SPEED)
+              self.pbIncreaseStatBasic(PBStats::SPEED,2)
+              @battle.pbCommonAnimation("StatUp",user,nil)
+              @battle.pbDisplay(_INTL("Emergency Exit raised {1}'s Speed!",self.pbThis))
             end
-          end 
+          end
         else
-          if (target.ability == :EMERGENCYEXIT || target.ability == :WIMPOUT) && 
+          if (target.ability == :EMERGENCYEXIT || target.ability == :WIMPOUT) &&
             ((@battle.pbCanChooseNonActive?(target.index) && !@battle.pbAllFainted?(@battle.pbParty(target.index))) || @battle.pbIsWild?)
             blockwimp = user.isbossmon && (!@battle.pbCanChooseNonActive?(target.index) && !@battle.pbAllFainted?(@battle.pbParty(target.index)))
             if !blockwimp
@@ -4952,7 +4975,7 @@ class PokeBattle_Battler
                 @battle.pbDisplay(_INTL("{1} wimped out!",target.pbThis)) if target.ability == :WIMPOUT
                 wimpcheck=true
               end
-              @battle.pbClearChoices(target.index) 
+              @battle.pbClearChoices(target.index)
               if @battle.pbIsWild? && !(@battle.cantescape || $game_switches[:Never_Escape])
                 @battle.decision=3 # Set decision to escaped
               else
@@ -4996,7 +5019,7 @@ class PokeBattle_Battler
           end
         end
       end
-      if target.isFainted?  
+      if target.isFainted?
          if @battle.recorded || @battle.FE == :CROWD
           $game_variables[:BattleDataArray].last().pokemonFaintedAnEnemy(@battle.battlers,user,target,basemove)
          end
@@ -5540,7 +5563,7 @@ class PokeBattle_Battler
           counter2=0
           for k in @battle.battlers
             next if k.isFainted?
-            counter1+=1    
+            counter1+=1
           end
           for j in @battle.battlers
             next unless user.pbIsOpposing?(j.index)
@@ -5591,7 +5614,7 @@ class PokeBattle_Battler
         end
         # Swalot Crest
         if user.crested == :SWALOT
-          if basemove.move == :BELCH  
+          if basemove.move == :BELCH
             move = :SPITUP
             movename = getMoveName(move)
             @battle.pbDisplay(_INTL("{1} used {2}!",user.pbThis,movename))
@@ -5620,7 +5643,7 @@ class PokeBattle_Battler
         i+=1
       end
       basemove.fieldmessageshown = false
-      basemove.fieldmessageshown_type = false  
+      basemove.fieldmessageshown_type = false
 
       # Metronome item
       if (user.hasWorkingItem(:METRONOME) || @battle.FE == :CONCERT4) && movesucceeded
@@ -5659,7 +5682,7 @@ class PokeBattle_Battler
         combust = user.totalhp
         if combust!=0
           if (basemove.move == :DIG || basemove.move == :DIVE ||
-            basemove.move == :FLY || basemove.move == :BOUNCE) && 
+            basemove.move == :FLY || basemove.move == :BOUNCE) &&
             user.effects[:TwoTurnAttack] != 0
             combust-=1 if user.ability == (:STURDY)
             @battle.pbDisplay(_INTL("The corrupted field damaged {1}!",user.pbThis)) if combust != 0
@@ -5834,12 +5857,12 @@ class PokeBattle_Battler
     spdefmult *= 1.5 if self.item == :METALPOWDER && self.pokemon.species == :DITTO && !self.effects[:Transform]
     spdefmult *= 1.5 if self.ability == :FLOWERGIFT && @battle.pbWeather== :SUNNYDAY || self.crested == :CHERRIM
     spdefmult *= 1.5 if @battle.pbWeather== :SANDSTORM &&hasType?(:ROCK)
-    
+
     return [spatkmult*self.spatk,spdefmult*self.spdef].max if unaware
-    
+
     spatk = self.spatk*stagemul[self.stages[PBStats::SPATK]+6]/stagediv[self.stages[PBStats::SPATK]+6]
     spdef = self.spdef*stagemul[self.stages[PBStats::SPDEF]+6]/stagediv[self.stages[PBStats::SPDEF]+6]
-    
+
     #If we only want to know which stat is higher
     return PBStats::SPATK if spatkmult*spatk > spdefmult*spdef && which_is_higher
     return PBStats::SPDEF if which_is_higher
@@ -5994,7 +6017,7 @@ class PokeBattle_Battler
       self.roll=0
     end
     self.isbattlernew =  self.pokemon.clone
-    messageroll = [self.name+ " received the crowd's cheers! Full power!", 
+    messageroll = [self.name+ " received the crowd's cheers! Full power!",
     self.name+ " received the crowd's cheers! Unyielding as the earth!",
     self.name+ " received the crowd's cheers! Full speed ahead!",][self.roll]
     effectroll = self.getRoll()
@@ -6091,7 +6114,7 @@ class PokeBattle_Battler
     z_effect = z_effect_hash[move]
 
     # Single stat boosting z-move
-    if z_effect.length==2 
+    if z_effect.length==2
       if attacker.pbCanIncreaseStatStage?(z_effect[0],false)
       attacker.pbIncreaseStat(z_effect[0],z_effect[1],abilitymessage:false)
       boostlevel = ["","sharply ", "drastically "]
@@ -6105,7 +6128,7 @@ class PokeBattle_Battler
     when :allstat1
       increment = 1
       increment = 2 if @battle.FE == :CITY && [:CONVERSION,:HAPPYHOUR,:CELEBRATE].include?(move)
-      increment = 2 if @battle.FE == :BACKALLEY && move == :CONVERSION 
+      increment = 2 if @battle.FE == :BACKALLEY && move == :CONVERSION
       for stat in [PBStats::ATTACK,PBStats::DEFENSE,PBStats::SPATK,PBStats::SPDEF,PBStats::SPEED]
         if attacker.pbCanIncreaseStatStage?(stat,false)
           attacker.pbIncreaseStat(stat,increment,abilitymessage:false)
