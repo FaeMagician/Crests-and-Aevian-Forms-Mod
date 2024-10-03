@@ -172,6 +172,18 @@ class PokeBattle_Move
           type = :FIRE
         end
       end
+      #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Primarina)
+      if attacker.crested == :PRIMARINA and attacker.ability != :LIQUIDVOICE
+        if isSoundBased?
+          type = :FAIRY
+        end
+      end
+      #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Swampert)
+      if attacker.crested == :SWAMPERT
+        if type == :NORMAL
+          type = :GROUND
+        end
+      end
       #MODDED - CRESTS AND AEVIAN FORMS MOD - END
     end
     case attacker.crested
@@ -1247,6 +1259,9 @@ class PokeBattle_Move
   def getSecondaryType(attacker)
     secondtype = []
     secondtype.push(:FLYING) if @move == :FLYINGPRESS
+    #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Primarina)
+    secondtype.push(:FAIRY) if attacker.crested == :PRIMARINA and attacker.ability == :LIQUIDVOICE and isSoundBased?
+    #MODDED - CRESTS AND AEVIAN FORMS MOD - END
     fieldtype = fieldTypeChange(attacker,nil,nil,true)
     secondtype.push(fieldtype) if fieldtype
     overlaytype = overlayTypeChange(attacker,nil,nil,true)
@@ -1575,6 +1590,12 @@ class PokeBattle_Move
         when 2 then basemult*=1.2 if @type == :NORMAL && type == :GROUND
         when 3 then basemult*=1.2 if @type == :NORMAL && type == :ICE
         end
+      #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Swampert)
+      when :SWAMPERT
+        if [:MUDSHOT, :MUDSLAP, :MUDBOMB, :MUDDYWATER].include?(@move)
+          basemult *= 2
+        end
+      #MODDED - CRESTS AND AEVIAN FORMS MOD - END
     end
     #type mods
     case type

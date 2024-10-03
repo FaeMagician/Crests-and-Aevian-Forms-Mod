@@ -93,7 +93,7 @@ class PokeBattle_Battler
         @zorotransform = (self.crested == :ZOROARK && self.ability == :STANCECHANGE) ? 0 : nil
     end
 
-    
+
     def rejuvAbilities(onactive)
       if self.ability == :PRISMPOWER && onactive
         if self.pokemon.prismPower == false
@@ -162,7 +162,7 @@ class PokeBattle_Battler
               @battle.scene.pbChangePokemon(self,self.effects[:Illusion])
               @battle.pbDisplay(_INTL("{1} transformed!",pbThis))
             end
-            if (self.ability == :STANCECHANGE) && (@battle.FE == :FAIRYTALE || (Rejuv && @battle.FE == :CHESS)) 
+            if (self.ability == :STANCECHANGE) && (@battle.FE == :FAIRYTALE || (Rejuv && @battle.FE == :CHESS))
               if (@zorotransform== 0)
                 self.pbReduceStat(PBStats::ATTACK,1,abilitymessage:false)
                 self.pbIncreaseStat(PBStats::DEFENSE,1,abilitymessage:false)
@@ -256,6 +256,24 @@ class PokeBattle_Battler
             @spdef += (0.1 * mon.spdef)
             boost = true
           end
+        #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Togekiss)
+        when :TOGEKISS
+          party = @battle.pbParty(@index)
+          boost = false
+          for mon in party
+            if !mon || !mon.isShiny?
+              next
+            end
+            @totalhp += (0.05 * mon.totalhp)
+            @hp += (0.05 * mon.hp)
+            @attack += (0.05 * mon.attack)
+            @defense += (0.05 * mon.defense)
+            @speed += (0.05 * mon.speed)
+            @spatk += (0.05 * mon.spatk)
+            @spdef += (0.05 * mon.spdef)
+            boost = true
+          end
+        #MODDED - CRESTS AND AEVIAN FORMS MOD - END
         when :WHISCASH
           @attack *= 1.2
           @spatk *= 1.2
@@ -265,7 +283,7 @@ class PokeBattle_Battler
           @defense *= 1.2
           @spdef *= 1.2
         when :REUNICLUS
-          if @battle.choices[@index][0]==1 && @battle.choices[@index][1]>=0  
+          if @battle.choices[@index][0]==1 && @battle.choices[@index][1]>=0
             @attack, @spatk = @spatk, @attack if self.moves[@battle.choices[@index][1]].pbIsPhysical?
           end
         when :SAWSBUCK
@@ -297,7 +315,7 @@ class PokeBattle_Battler
               @ability = party[party.length-1].ability if !blacklist.include?(party[party.length-1].ability)
             end
           end
-        end 
+        end
       end
 
       def pbFaint(showMessage=true)
@@ -322,10 +340,10 @@ class PokeBattle_Battler
             #self.pbRecoverHP(self.totalhp,true) if self.hp==0
             case hpthreshold
             when 0
-              boss = @battle.battlers[self.index] 
+              boss = @battle.battlers[self.index]
               self.pbRecoverHP(self.totalhp,true)
               @battle.pbShieldEffects(self,onBreakdata) if onBreakdata
-              self.shieldCount-=1 if self.shieldCount>0 
+              self.shieldCount-=1 if self.shieldCount>0
               @battle.scene.pbUpdateShield(boss.shieldCount,self.index)
               if boss.sosDetails
                 @battle.pbBossSOS(@battle.battlers,shieldbreak=true)
@@ -334,7 +352,7 @@ class PokeBattle_Battler
               self.pbRecoverHP(self.totalhp,true)
               if onBreakdata
                 if onBreakdata[:thresholdmessage] && onBreakdata[:thresholdmessage] != ""
-                  if onBreakdata[:thresholdmessage].start_with?("{1}") 
+                  if onBreakdata[:thresholdmessage].start_with?("{1}")
                     pbDisplay(_INTL(onBreakdata[:thresholdmessage],self.pbThis))
                   else
                     pbDisplay(_INTL(onBreakdata[:thresholdmessage],self.pbThis(true)))
@@ -342,7 +360,7 @@ class PokeBattle_Battler
                 end
                 @battle.pbShieldEffects(self,onBreakdata,false,false,true) if onBreakdata
                 self.reconstructcounter += 1
-                if self.reconstructcounter >=100      
+                if self.reconstructcounter >=100
                   if $game_variables[731] < 122 && $game_variables[756] < 85
                   @battle.pbDisplayBrief(_INTL("???: You are wasting your time, Interceptor.",self.pbThis))
                   else
@@ -378,7 +396,7 @@ class PokeBattle_Battler
           end
           return false
         else
-          @battle.scene.pbFainted(self)     
+          @battle.scene.pbFainted(self)
         end
         @battle.neutralizingGasDisable(self.index) if self.ability == :NEUTRALIZINGGAS
         if (pbPartner.ability == :POWEROFALCHEMY || pbPartner.ability == :RECEIVER) && pbPartner.hp > 0
@@ -451,7 +469,7 @@ class PokeBattle_Battler
           self.form=0
         end
         if ((@species == :PARAS || @species == :PARASECT) && @pokemon.form == 2)
-          self.form=1 
+          self.form=1
         end
         #stops being in middle of a spread move
         @midwayThroughMove = false
@@ -477,7 +495,7 @@ end
 
 class PokeBattle_BossMove < PokeBattle_Move	#Fake move used by AI to determine damage if no damaging AI memory move
 	def initialize(battle,user,bossmove)
-		type = bossmove[:type] ? bossmove[:type] : :QMARKS 
+		type = bossmove[:type] ? bossmove[:type] : :QMARKS
 		@move = bossmove[:move]
 		@battle = battle
 		@name 			 = bossmove[:name]
