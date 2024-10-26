@@ -10116,5 +10116,45 @@ ITEMHASH = {
 	:noUseInBattle => true,
 	:noUse => true,
 },
+
+:VENUCREST => {
+  :ID => 1115,
+	:name => "Venusaur Crest",
+	:desc => "Venusaur gains the Drought ability on top of its existing ability. Venusaur resists fire and ice.",
+	:price => 0,
+	:crest => true,
+	:noUseInBattle => true,
+	:noUse => true,
+},
+
+:BLASCREST => {
+  :ID => 1116,
+	:name => "Blastoise Crest",
+	:desc => "At the end of every turn, all stat drops are removed.",
+	:price => 0,
+	:crest => true,
+	:noUseInBattle => true,
+	:noUse => true,
+},
+
+:CHARCREST => {
+  :ID => 1117,
+	:name => "Charizard Crest",
+	:desc => "Charizard resists Rock Types.",
+	:price => 0,
+	:crest => true,
+	:noUseInBattle => true,
+	:noUse => true,
+},
+
+:BUTTERCREST => {
+  :ID => 1118,
+	:name => "Butterfree Crest",
+	:desc => "Gains Psychic STAB and its Resistances. Speed is boosted by 30% during Clear Weather, Harsh Sunlight, or while Psychic Terrain is active.",
+	:price => 0,
+	:crest => true,
+	:noUseInBattle => true,
+	:noUse => true,
+},
 #MODDED - CRESTS AND AEVIAN FORMS MOD - END
 }

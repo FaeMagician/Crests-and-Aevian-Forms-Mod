@@ -825,6 +825,9 @@ class PokeBattle_Battler
     end
     speed*=2 if self.crested == :CASTFORM && self.form == 3 && (@battle.pbWeather== :HAIL || @battle.FE==:ICY || @battle.FE==:SNOWYMOUNTAIN || @battle.FE==:FROZENDIMENSION)
     speed*=2 if self.crested == :EMPOLEON && (@battle.pbWeather== :HAIL || @battle.FE==:ICY || @battle.FE==:SNOWYMOUNTAIN || @battle.FE==:FROZENDIMENSION)
+    #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Butterfree)
+    speed *= 1.3 if self.crested == :BUTTERFREE && (@battle.pbWeather == :SUNNYDAY || @battle.pbWeather == 0 || @battle.FE==:PSYTERRAIN)
+    #MODDED - CRESTS AND AEVIAN FORMS MOD - END
     speed*=0.5 if self.item == :IRONBALL if !@battle.FE == :DEEPEARTH
     if self.status== :PARALYSIS && self.ability != :QUICKFEET
       speed=(speed/2.0).floor
@@ -1722,8 +1725,8 @@ class PokeBattle_Battler
         @battle.pbDisplay(_INTL("{1}'s Sand Stream whipped up a sandstorm!",pbThis))
       end
     end
-    #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Kantoan Arcanine)
-    if (ability == :DROUGHT) && onactive && @battle.weather!=:SUNNYDAY || (self.crested == :ARCANINE and self.form == 0)
+    #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Kantoan Arcanine/Venusaur)
+    if @battle.weather!=:SUNNYDAY && (((ability == :DROUGHT) && onactive) || ((self.crested == :ARCANINE and self.form == 0) || self.crested == :VENUSAUR))
     #MODDED - CRESTS AND AEVIAN FORMS MOD - END
       if @battle.state.effects[:HeavyRain]
         @battle.pbDisplay(_INTL("There's no relief from this heavy rain!"))
@@ -1749,8 +1752,8 @@ class PokeBattle_Battler
           @battle.FE == :DESERT || @battle.FE == :MOUNTAIN || @battle.FE == :SNOWYMOUNTAIN || @battle.FE == :SKY
         @battle.weatherduration=-1 if $game_switches[:Gen_5_Weather]==true
         @battle.pbCommonAnimation("Sunny",nil,nil)
-        #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Kantoan Arcanine)
-        if self.crested == :ARCANINE and self.form == 0
+        #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Kantoan Arcanine / Venusaur)
+        if (self.crested == :ARCANINE and self.form == 0) || self.crested == :VENUSAUR
           @battle.pbDisplay(_INTL("{1}'s Crest intensified the sun's rays!",pbThis))
         else
           @battle.pbDisplay(_INTL("{1}'s Drought intensified the sun's rays!",pbThis))
@@ -5960,6 +5963,20 @@ class PokeBattle_Battler
           @battle.battlers[i].backupability = @battle.battlers[i].ability #No going back
         end
       end
+      #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Blastoise Crest)
+      if self.crested == :BLASTOISE
+        reducedstats=false
+        for i in 1..7
+          if @stages[i]<0
+            @stages[i]=0; reducedstats=true
+          end
+        end
+        if reducedstats
+          @battle.pbDisplay(_INTL("{1}'s Crest restored its status!",pbThis))
+          return
+        end
+      end
+      #MODDED - CRESTS AND AEVIAN FORMS MOD - END
     end
     #remove the gem if consumed this turn
     if self.takegem

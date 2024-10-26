@@ -1126,6 +1126,16 @@ class PokeBattle_Move
         if !($game_switches[:Inversemode] ^ (@battle.FE == :INVERSE))
           typemod = 16 / typemod if typemod != 0
         end
+      #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Venusaur Crest)
+      when :VENUSAUR
+        typemod /= 4 if (type == :FIRE || type == :ICE)
+      #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Charizard Crest)
+      when :CHARIZARD
+        typemod /= 8 if type == :ROCK
+      #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Butterfree Crest)
+      when :BUTTERFREE
+        typemod /= 2 if (type == :FIGHTING || type == :PSYCHIC)
+      #MODDED - CRESTS AND AEVIAN FORMS MOD - END
       end
     end
     typemod *= 4 if @move == :FREEZEDRY && opponent.hasType?(:WATER)
@@ -2184,6 +2194,9 @@ class PokeBattle_Move
       when :SIMISEAR then typecrest = true if type == :WATER
       when :SIMIPOUR then typecrest = true if type == :GRASS
       when :SIMISAGE then typecrest = true if type == :FIRE
+      #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Butterfree)
+      when :BUTTERFREE then typecrest = true if type == :PSYCHIC
+      #MODDED - CRESTS AND AEVIAN FORMS MOD - END
       when :ZOROARK
         party = @battle.pbPartySingleOwner(attacker.index)
         party=party.find_all {|item| item && !item.egg? && item.hp>0 }
