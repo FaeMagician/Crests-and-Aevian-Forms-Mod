@@ -6918,6 +6918,8 @@ class PokeBattle_AI
 			miniscore*=3 if bestmove1.pbType(@attacker.pbOpposing1) ==:GRASS || bestmove2.pbType(@attacker.pbOpposing2) ==:GRASS
 		elsif battler.pbPartner.crested == :SKUNTANK
 			miniscore*=3 if bestmove1.pbType(@attacker.pbOpposing1) ==:GRASS || bestmove2.pbType(@attacker.pbOpposing2) ==:GROUND
+		elsif battler.pbpartner.crested == :BANETTE
+			miniscore*=3 if bestmove1.pbType(@attacker.pbOpposing1) ==:GHOST || bestmove2.pbType(@attacker.pbOpposing2) ==:GHOST
 		end
 		miniscore*=2 if (bestmove1.contactMove? || bestmove2.contactMove?) && checkAImoves([:KINGSSHIELD, :BANEFULBUNKER, :SPIKYSHIELD])
 		miniscore*=2 if checkAImoves([:COUNTER, :METALBURST, :MIRRORCOAT])
@@ -11215,6 +11217,7 @@ class PokeBattle_AI
       		when :SIMISEAR then typecrest = true if type == :WATER
       		when :SIMIPOUR then typecrest = true if type == :GRASS
       		when :SIMISAGE then typecrest = true if type == :FIRE
+    			when :BANETTE then typecrest = true if type == :NORMAL
 			when :GOTHITELLE then typecrest = true if type == :PSYCHIC || type == :DARK
 			when :REUNICLUS then typecrest = true if type == :PSYCHIC || type == :FIGHTING
 			when :ZOROARK
