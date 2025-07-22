@@ -2250,6 +2250,7 @@ class PokeBattle_Move
     end
     finalmult*=0.67 if opponent.crested == :BEHEEYEM && (!opponent.hasMovedThisRound? || @battle.switchedOut[opponent.index])
     secondtypes = self.getSecondaryType(attacker)
+    finalmult*=0.67 if opponent.crested == :WEEZING && attacker.status==:POISON
     finalmult*=0.5 if opponent.effects[:Shelter] && @battle.FE != :INDOOR && (type == @battle.field.mimicry || !secondtypes.nil? && secondtypes.include?(@battle.field.mimicry))
     finalmult*=0.5 if ((opponent.ability == :MULTISCALE && !(opponent.moldbroken)) && opponent.hp==opponent.totalhp)
     finalmult*=0.5 if opponent.ability == :SHADOWSHIELD && (opponent.hp==opponent.totalhp || @battle.FE == :DIMENSIONAL)
