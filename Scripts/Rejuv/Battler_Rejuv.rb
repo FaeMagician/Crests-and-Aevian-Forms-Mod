@@ -217,6 +217,9 @@ class PokeBattle_Battler
           @spatk = @defense
         when :DEDENNE
           @attack = @speed
+        when :GREEDENT
+          @defense *= 1.2
+          @spdef *= 1.2
         when :RELICANTH
           @attack *=1.2
           @spdef *= 1.3
