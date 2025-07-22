@@ -2900,6 +2900,11 @@ class PokeBattle_Battler
             @battle.pbDisplay(_INTL("{1} was caught in the aftermath!",user.pbThis))
           end
         end
+
+        # Banette Crest curse effect
+        if target.species == :BANETTE && target.crested == :BANETTE && !user.isFainted? && target.hp <= 0 && !@battle.pbCheckGlobalAbility(:DAMP) && user.ability != (:MAGICGUARD) && !(user.ability == (:WONDERGUARD) && @battle.FE == :COLOSSEUM)
+        user.effects[:Curse] = true
+        end
         # UPDATE 11/16/2013
         eschance = 3
         eschance = 6 if (@battle.FE == :FOREST || @battle.FE == :WASTELAND || @battle.FE == :BEWITCHED)
