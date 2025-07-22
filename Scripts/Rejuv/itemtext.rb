@@ -10176,5 +10176,15 @@ ITEMHASH = {
 	:noUseInBattle => true,
 	:noUse => true,
 },
+
+:BANECREST => {
+	:ID => 1121,
+	:name => "Banette Crest",
+	:desc => "Banette gains Normal type STAB and resistances. Upon being knocked out, banette curses their opponent.",
+	:price => 0,
+	:crest => true,
+	:noUseInBattle => true,
+	:noUse => true,
+},  
 #MODDED - CRESTS AND AEVIAN FORMS MOD - END
 }
