@@ -3622,31 +3622,21 @@ class PokeBattle_Battler
 
     # Greedent Crest
     if hpcure && self.crested == :GREEDENT && (self.hp<=(self.totalhp/2.0).floor || self.ability==:GLUTTONY)
-    greedentberries = [:GREEDSITRUS, :GREEDLIECHIPETAYA, :GREEDGANLONAPICOT, :GREEDSALACSITRUS] 
+    greedentberries = [:GREEDLIECHIPETAYA, :GREEDGANLONAPICOT] 
     greedberry = greedentberries.sample
     @battle.pbDisplay(_INTL("{1}'s Crest allowed it to forage for berries",pbThis))
 
     case greedberry
-    when :GREEDSITRUS
-    if self.hp<=self.totalhp.floor
-      pbRecoverHP((self.totalhp/4).floor,true)
-    else
-      self.pbIncreaseStat(PBStats::DEFENSE,1)
-      self.pbIncreaseStat(PBStats::SPDEF,1)
-    end
     when :GREEDLIECHIPETAYA
       self.pbIncreaseStat(PBStats::ATTACK,1)
       self.pbIncreaseStat(PBStats::SPATK,1)
     when :GREEDGANLONAPICOT
       self.pbIncreaseStat(PBStats::DEFENSE,1) 
       self.pbIncreaseStat(PBStats::SPDEF,1)
-    when :GREEDSALACSITRUS
-      pbRecoverHP((self.totalhp/5.0).floor,true)
-      self.pbIncreaseStat(PBStats::SPEED,2)
     end
 
     if self.ability == :CHEEKPOUCH
-       pbRecoverHP((self.totalhp/3.0).floor, true)
+       pbRecoverHP((self.totalhp/8.0).floor, true)
     end
     end
 
