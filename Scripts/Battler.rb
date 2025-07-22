@@ -3619,7 +3619,12 @@ class PokeBattle_Battler
       pbFaint if self.isFainted?
       return
     end
-
+    if hpcure && self.crested == :WEEZING && self.hp!=self.totalhp
+      hpgain = self.totalhp/16
+      pbRecoverHP((hpgain).floor,true)
+      @battle.pbDisplay(_INTL("{1}'s Crest restored its HP a little",pbThis))
+      return
+    end
     # Greedent Crest
     if hpcure && self.crested == :GREEDENT && (self.hp<=(self.totalhp/2.0).floor || self.ability==:GLUTTONY)
     greedentberries = [:GREEDLIECHIPETAYA, :GREEDGANLONAPICOT] 
