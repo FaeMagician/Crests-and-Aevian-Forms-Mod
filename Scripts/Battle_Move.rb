@@ -1122,6 +1122,8 @@ class PokeBattle_Move
       when :SIMISAGE
         typemod /= 2 if [:BUG,:STEEL,:FIRE,:GRASS,:FAIRY].include?(type)
         typemod /= 2 if type == :ICE && @battle.FE != :GLITCH
+      when :BANETTE
+        typemod = 0 if type == :GHOST
       when :TORTERRA
         if !($game_switches[:Inversemode] ^ (@battle.FE == :INVERSE))
           typemod = 16 / typemod if typemod != 0
@@ -2196,6 +2198,7 @@ class PokeBattle_Move
       when :SIMISAGE then typecrest = true if type == :FIRE
       #MODDED - CRESTS AND AEVIAN FORMS MOD - START (Butterfree)
       when :BUTTERFREE then typecrest = true if type == :PSYCHIC
+      when :BANETTE then typecrest = true if type == :NORMAL
       #MODDED - CRESTS AND AEVIAN FORMS MOD - END
       when :ZOROARK
         party = @battle.pbPartySingleOwner(attacker.index)
