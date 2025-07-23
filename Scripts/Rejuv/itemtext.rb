@@ -10166,15 +10166,5 @@ ITEMHASH = {
 	:noUseInBattle => true,
 	:noUse => true,
 },
-
-:WEEZCREST => {
-	:ID => 1120,
-	:name => "Weezing Crest",
-	:desc => "Poisoned enemies deal reduced damage. Recovers 1/16th HP per turn.",
-	:price => 0,
-	:crest => true,
-	:noUseInBattle => true,
-	:noUse => true,
-},
 #MODDED - CRESTS AND AEVIAN FORMS MOD - END
 }
