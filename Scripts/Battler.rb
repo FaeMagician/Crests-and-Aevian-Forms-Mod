@@ -3619,6 +3619,27 @@ class PokeBattle_Battler
       pbFaint if self.isFainted?
       return
     end
+    # Greedent Crest
+    if hpcure && self.crested == :GREEDENT && (self.hp<=(self.totalhp/2.0).floor || self.ability==:GLUTTONY)
+    greedentberries = [:GREEDLIECHIPETAYA, :GREEDGANLONAPICOT] 
+    greedberry = greedentberries.sample
+    @battle.pbDisplay(_INTL("{1}'s Crest allowed it to forage for berries",pbThis))
+
+    case greedberry
+    when :GREEDLIECHIPETAYA
+      self.pbIncreaseStat(PBStats::ATTACK,1)
+      self.pbIncreaseStat(PBStats::SPATK,1)
+    when :GREEDGANLONAPICOT
+      self.pbIncreaseStat(PBStats::DEFENSE,1) 
+      self.pbIncreaseStat(PBStats::SPDEF,1)
+    end
+
+    if self.ability == :CHEEKPOUCH
+       pbRecoverHP((self.totalhp/8.0).floor, true)
+    end
+    end
+
+
     # Spiritomb Crest
     if hpcure && self.crested == :SPIRITOMB && self.hp!=self.totalhp
       enemyfainted = pbEnemyFaintedPokemonCount

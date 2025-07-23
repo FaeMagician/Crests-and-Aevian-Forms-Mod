@@ -10156,5 +10156,15 @@ ITEMHASH = {
 	:noUseInBattle => true,
 	:noUse => true,
 },
+
+:GREEDCREST => {
+	:ID => 1119,
+	:name => "Greedent Crest",
+	:desc => "Forages for a berry when below half HP, or at full with Gluttony, regains 1/8 hp upon comsumption with cheek pouch.",
+	:price => 0,
+	:crest => true,
+	:noUseInBattle => true,
+	:noUse => true,
+},
 #MODDED - CRESTS AND AEVIAN FORMS MOD - END
 }
